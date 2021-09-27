@@ -1,6 +1,6 @@
 using System;
 
-namespace webAxy.Models
+namespace axy.Models
 {
     public class ErrorViewModel
     {

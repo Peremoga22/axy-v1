@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using axy.Models;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -8,9 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-using webAxy.Models;
-
-namespace webAxy.Controllers
+namespace axy.Controllers
 {
     [Authorize]
     public class HomeController : Controller

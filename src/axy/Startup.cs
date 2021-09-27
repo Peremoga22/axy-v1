@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webAxy
+namespace axy
 {
     public class Startup
     {
