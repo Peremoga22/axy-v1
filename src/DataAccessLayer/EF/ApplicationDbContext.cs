@@ -19,8 +19,7 @@ namespace DataAccessLayer.EF
         }
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Cost> Costs { get; set; }
-        public DbSet<Income> Incomes { get; set; }
+       
         public DbSet<Price> Prices { get; set; }
     }
 }

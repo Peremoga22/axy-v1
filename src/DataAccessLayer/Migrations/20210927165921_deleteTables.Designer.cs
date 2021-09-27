@@ -4,14 +4,16 @@ using DataAccessLayer.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210927165921_deleteTables")]
+    partial class deleteTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,17 +49,14 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Cost")
+                    b.Property<decimal>("Costs")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CurentData")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Income")
+                    b.Property<decimal>("Incomes")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsIncome")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

@@ -4,12 +4,13 @@ using BusinessLogic.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessLogic.Map;
 
 namespace axy.Controllers
 {
@@ -30,9 +31,20 @@ namespace axy.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(CategoryDto model)
+        public IActionResult Index(ModelVueHome model)
         {
-            var cateory = new CategoryDto();
+            var cateory = new CategoryDto();            
+            cateory.Name = model.Name;
+            cateory.Description = model.Description;
+            MapCategory.Map(cateory);
+
+            var prise = new PriceDto();
+            prise.CurrentDate = model.CurrentData;
+            prise.Cost = model.Price;
+            prise.Income = model.Price;
+            prise.IsIncome = model.IsIncome;
+            MapPrice.Map(prise);
+           // var qwe = new SelectList()  add list and drop data on UI
             return View();
         }
 
