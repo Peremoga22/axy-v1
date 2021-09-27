@@ -30,18 +30,19 @@ namespace axy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+            //services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            //    .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
 
-            services.AddControllersWithViews(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });
-            services.AddRazorPages()
-                 .AddMicrosoftIdentityUI();
+            //services.AddControllersWithViews(options =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
+            //    options.Filters.Add(new AuthorizeFilter(policy));
+            //});
+            //services.AddRazorPages()
+            //     .AddMicrosoftIdentityUI();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,8 +54,7 @@ namespace axy
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseExceptionHandler("/Home/Error");          
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -62,8 +62,8 @@ namespace axy
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+           // app.UseAuthentication();
+          //  app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
