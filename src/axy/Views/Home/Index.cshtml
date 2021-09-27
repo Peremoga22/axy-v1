@@ -1,8 +1,60 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+   
+    <div>
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome</h1>
+            <form method="post" action="~/Home/Index">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Date time</label>
+                    <input type="date" class="form-control" id="formGroupExampleInput" name="CurrentDate">
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput2">Sum</label>
+                    <input type="number" class="form-control" id="formGroupExampleInput2" name="Price" placeholder="Sum">
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                    <label class="form-check-label" for="flexSwitchCheckChecked" name="IsIncome">Income/Consumption </label>
+                </div>
+                <br /><br />
+                <label for="formGroupExampleInput">Name</label><br />
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="inputGroupSelect02">
+                        <option selected>Choose category...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <div class="input-group-append">
+                        <label class="input-group-text" for="inputGroupSelect02">Edit</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput2">Sum</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput2" name="Description" placeholder="Add description">
+                </div>
+                <br />
+                <input type="submit" class="btn btn-warning btn-lg" value="Save" />
+            </form>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <ul class="list-unstyled text-left">
+                    <li>Current balans:</li>
+                    <li>Savings for this month:</li>
+                    <li>Balance at the beginning of the month:</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
+ 

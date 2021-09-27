@@ -1,4 +1,5 @@
 ﻿using axy.Models;
+using BusinessLogic.Entities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,16 @@ namespace axy.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(CategoryDto model)
+        {
+            var cateory = new CategoryDto();
             return View();
         }
 
