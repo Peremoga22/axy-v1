@@ -1,3 +1,5 @@
+using DataAccessLayer.EF;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -5,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +33,9 @@ namespace axy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             //services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
             //    .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
 
@@ -63,7 +69,7 @@ namespace axy
             app.UseRouting();
 
            // app.UseAuthentication();
-          //  app.UseAuthorization();
+           // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
