@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "axy", "src\axy\axy.csproj", "{44DFDACC-7F2E-4AC3-BE29-140A5C9FFFFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "axy", "src\axy\axy.csproj", "{44DFDACC-7F2E-4AC3-BE29-140A5C9FFFFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "src\BusinessLogic\BusinessLogic.csproj", "{A551A32A-3EFF-44C7-9CFA-F888F98013E2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "src\DataAccessLayer\DataAccessLayer.csproj", "{600ACD70-1257-40CB-B998-04BD0F9061D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "src\DataAccessLayer\DataAccessLayer.csproj", "{600ACD70-1257-40CB-B998-04BD0F9061D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{44DFDACC-7F2E-4AC3-BE29-140A5C9FFFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44DFDACC-7F2E-4AC3-BE29-140A5C9FFFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44DFDACC-7F2E-4AC3-BE29-140A5C9FFFFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A551A32A-3EFF-44C7-9CFA-F888F98013E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A551A32A-3EFF-44C7-9CFA-F888F98013E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A551A32A-3EFF-44C7-9CFA-F888F98013E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A551A32A-3EFF-44C7-9CFA-F888F98013E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{600ACD70-1257-40CB-B998-04BD0F9061D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{600ACD70-1257-40CB-B998-04BD0F9061D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{600ACD70-1257-40CB-B998-04BD0F9061D3}.Release|Any CPU.ActiveCfg = Release|Any CPU

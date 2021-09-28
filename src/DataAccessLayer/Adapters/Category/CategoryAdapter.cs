@@ -13,9 +13,9 @@ namespace DataAccessLayer
 {
     public static class CategoryAdapter
     {
-        public static IEnumerable<Category> GetCategory()
+        public static IEnumerable<CategoryDto> GetCategory()
         {
-            var result = new List<Category>();
+            var result = new List<CategoryDto>();
 
             string sql = null;
             sql = string.Format(@"exec [sp_GetCategory]");
@@ -25,7 +25,7 @@ namespace DataAccessLayer
             {
                 foreach (DataRow item in sqlResult.Rows)
                 {
-                    result.Add(new Category
+                    result.Add(new CategoryDto
                     {
                         Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "Id"),
                         Name = DataBaseHelper.GetValueFromRowByName(item, "Name"),

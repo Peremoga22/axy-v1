@@ -1,6 +1,4 @@
 ﻿using axy.Models;
-using BusinessLogic.Entities;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,10 +8,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using BusinessLogic.Map;
 using DataAccessLayer;
 using System.Collections;
 using DataAccessLayer.EF.Models;
+using DataAccessLayer.Entities;
 
 namespace axy.Controllers
 {
@@ -46,15 +44,12 @@ namespace axy.Controllers
             var cateory = new CategoryDto();            
             cateory.Name = model.Name;
             cateory.Description = model.Description;
-            MapCategory.Map(cateory);
-
+          
             var prise = new PriceDto();
             prise.CurrentDate = model.CurrentData;
             prise.Cost = model.Price;
             prise.Income = model.Price;
-            prise.IsIncome = model.IsIncome;
-            MapPrice.Map(prise);
-       
+            prise.IsIncome = model.IsIncome;          
            
             return View();
         }

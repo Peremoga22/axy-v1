@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Adapters.Helpers;
 using DataAccessLayer.EF.Models;
+using DataAccessLayer.Entities;
 
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace DataAccessLayer
 {
     public static class PriceAdapter
     {
-        public static IEnumerable<Price> GetPrice()
+        public static IEnumerable<PriceDto> GetPrice()
         {
-            var result = new List<Price>();
+            var result = new List<PriceDto>();
 
             var sql = string.Format(@"EXEC [sp_GetPriceList]");
 
@@ -24,10 +25,10 @@ namespace DataAccessLayer
             {
                 foreach (DataRow item in sqlResult.Rows)
                 {
-                    result.Add(new Price
+                    result.Add(new PriceDto
                     {
                         Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "Id"),
-                        CurentData = DataBaseHelper.GetDateTimeValueFromRowByName(item, "CurentDate"),
+                        CurrentDate = DataBaseHelper.GetDateTimeValueFromRowByName(item, "CurentDate"),
                         Cost = DataBaseHelper.GetDecimalValueFromRowByName(item, "Cost"),
                         Income = DataBaseHelper.GetDecimalValueFromRowByName(item, "Income"),
                         IsIncome = DataBaseHelper.GetBoolValueFromRowByName(item, "IsIncome")

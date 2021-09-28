@@ -1,7 +1,3 @@
-using BusinessLogic;
-using BusinessLogic.Services.Contract;
-using BusinessLogic.Services.Implemends;
-
 using DataAccessLayer.Adapters.ExtensionModels;
 using DataAccessLayer.EF;
 
@@ -41,9 +37,7 @@ namespace axy
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            ConnectionString.Value = Configuration.GetConnectionString("DefaultConnection");
-            services.AddTransient<IServiceCategory, ServiceCategory>();
-            services.AddTransient<IServicePrice, ServicePrice>();
+            ConnectionString.Value = Configuration.GetConnectionString("DefaultConnection");       
 
             //services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
             //    .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
