@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.EF.Models;
+﻿using DataAccessLayer.Adapters.ExtensionModels;
+using DataAccessLayer.EF.Models;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,10 @@ namespace DataAccessLayer.EF
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
           : base(options)
         {
+            if (!string.IsNullOrEmpty(Database.GetDbConnection().ConnectionString))
+            {
+                ConnectionString.Value = Database.GetDbConnection().ConnectionString;
+            }
         }
 
         public DbSet<Category> Categories { get; set; }

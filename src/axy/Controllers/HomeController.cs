@@ -11,6 +11,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using BusinessLogic.Map;
+using DataAccessLayer;
+using System.Collections;
+using DataAccessLayer.EF.Models;
 
 namespace axy.Controllers
 {
@@ -27,7 +30,14 @@ namespace axy.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var category = CategoryAdapter.GetCategory();
+            var price = PriceAdapter.GetPrice();
+            var modelView = new GetModelView();
+            modelView.GetCategories = category;
+            modelView.GetPrices = price;
+            
+            ViewBag.Categories = new SelectList(category, "Id", "Name");
+            return View(modelView);
         }
 
         [HttpPost]
@@ -44,7 +54,8 @@ namespace axy.Controllers
             prise.Income = model.Price;
             prise.IsIncome = model.IsIncome;
             MapPrice.Map(prise);
-           // var qwe = new SelectList()  add list and drop data on UI
+       
+           
             return View();
         }
 
