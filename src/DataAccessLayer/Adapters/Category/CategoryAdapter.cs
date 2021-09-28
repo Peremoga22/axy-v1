@@ -29,7 +29,11 @@ namespace DataAccessLayer
                     {
                         Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "Id"),
                         Name = DataBaseHelper.GetValueFromRowByName(item, "Name"),
-                        Description = DataBaseHelper.GetValueFromRowByName(item, "Cost")                       
+                        Description = DataBaseHelper.GetValueFromRowByName(item, "Cost") ,
+                        CurrentDate = DataBaseHelper.GetValueFromRowByName(item, "CurentDate"),
+                        Cost = DataBaseHelper.GetDecimalValueFromRowByName(item, "Cost"),
+                        Income = DataBaseHelper.GetDecimalValueFromRowByName(item, "Income"),
+                        IsIncome = DataBaseHelper.GetBoolValueFromRowByName(item, "IsIncome")
                     });
                 }
             }
@@ -38,11 +42,14 @@ namespace DataAccessLayer
         }
 
         public static void SaveCategory(CategoryDto model)
-        {                       
-             var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1},{2}",
-             DataBaseHelper.RawSafeSqlString(model.Id),
-             DataBaseHelper.RawSafeSqlString(model.Name),
-             DataBaseHelper.RawSafeSqlString(model.Description));
+        {           
+             var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3}, {4}, {5}",             
+             DataBaseHelper.SafeSqlString(model.Name),
+             DataBaseHelper.SafeSqlString(model.Description),
+             DataBaseHelper.SafeSqlString(model.Cost),
+             DataBaseHelper.SafeSqlString(model.CurrentDate.ToString()),
+             DataBaseHelper.SafeSqlString(model.Income),
+             DataBaseHelper.SafeSqlString(model.IsIncome));
            
             var sqlResult = DataBaseHelper.GetSqlResult(sql);                                        
         }

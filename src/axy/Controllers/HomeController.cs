@@ -29,10 +29,10 @@ namespace axy.Controllers
         public IActionResult Index()
         {
             var category = CategoryAdapter.GetCategory();
-            var price = PriceAdapter.GetPrice();
+           
             var modelView = new GetModelView();
             modelView.GetCategories = category;
-            modelView.GetPrices = price;
+          
             
             ViewBag.Categories = new SelectList(category, "Id", "Name");
             return View(modelView);
@@ -44,14 +44,15 @@ namespace axy.Controllers
             var cateory = new CategoryDto();            
             cateory.Name = model.Name;
             cateory.Description = model.Description;
-          
-            var prise = new PriceDto();
-            prise.CurrentDate = model.CurrentData;
-            prise.Cost = model.Price;
-            prise.Income = model.Price;
-            prise.IsIncome = model.IsIncome;          
+            cateory.Cost = model.Cost;
+            cateory.CurrentDate = model.CurrentData.ToString();
+            cateory.Income = model.Income;
+            cateory.IsIncome = model.IsIncome;
+       
            
-            return View();
+            CategoryAdapter.SaveCategory(cateory);
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

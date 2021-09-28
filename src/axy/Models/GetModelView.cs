@@ -12,7 +12,6 @@ namespace axy.Models
 {
     public class GetModelView
     {
-        public IEnumerable<CategoryDto> GetCategories { get; set; }
-        public IEnumerable<PriceDto> GetPrices { get; set; }
+        public IEnumerable<CategoryDto> GetCategories { get; set; }        
     }
 }
