@@ -39,5 +39,11 @@ namespace axy.Controllers
                 return View(model);
             }
         }
+
+        [HttpGet]
+        public RedirectResult Back()
+        {
+            return Redirect("/Home/Categories");
+        }
     }
 }

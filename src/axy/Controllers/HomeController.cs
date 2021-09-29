@@ -74,7 +74,19 @@ namespace axy.Controllers
         [HttpGet]
         public ViewResult Categories(int Id)
         {
-            return View("Categories");
+            var recipt = new List<ReceiptDto>();
+            recipt.Add(new ReceiptDto() { Id = 1, Name = "Product", Sum = 12.3m });
+            recipt.Add(new ReceiptDto() { Id = 2, Name = "Relax", Sum = 36.7m });
+
+            var expenditure = new List<ExpenditureDto>();
+            expenditure.Add(new ExpenditureDto() { Id = 1, Name = "Freelance", Sum = 1000 });
+            expenditure.Add(new ExpenditureDto() { Id = 2, Name = "Work to company", Sum = 1000 });
+
+            var listCost = new RecieprsExpenditure();
+            listCost.GetReceipts = recipt;
+            listCost.GetExpenditures = expenditure;
+
+            return View(listCost);
         }
 
         [HttpPost]
@@ -90,6 +102,20 @@ namespace axy.Controllers
             {
                 return View(model);
             }
+        }
+
+
+        [HttpGet]
+        public RedirectResult CreateReceipt()
+        {          
+           return Redirect("/Receipts/Edit");
+        }
+
+
+        [HttpGet]
+        public RedirectResult CreateExpenditure()
+        {           
+            return Redirect("/Expenditure/Edit");
         }
     }
 }
