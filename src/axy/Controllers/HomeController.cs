@@ -12,11 +12,13 @@ using DataAccessLayer;
 using System.Collections;
 using DataAccessLayer.EF.Models;
 
-using axy.Models.Entities;
+
+using DataAccessLayer.Adapters.Category;
+using DataAccessLayer.Entities;
 
 namespace axy.Controllers
 {
-   // [Authorize]
+    // [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -30,11 +32,12 @@ namespace axy.Controllers
         public IActionResult Index()
         {
             var category = CategoryAdapter.GetCategory();
-           
+
             var modelView = new GetModelView();
             modelView.GetCategories = category;
-          
-            
+
+
+
             ViewBag.Categories = new SelectList(category, "Id", "Name");
             return View(modelView);
         }
@@ -42,14 +45,14 @@ namespace axy.Controllers
         [HttpPost]
         public IActionResult Index(ModelVueHome model)
         {
-            var cateory = new CategoryDto();            
+            var cateory = new CategoryDto();
             cateory.Name = model.Name;
             cateory.Description = model.Description;
-           
+
             cateory.IsIncome = model.IsIncome;
-       
-           
-           // CategoryAdapter.SaveCategory(cateory);
+
+
+            // CategoryAdapter.SaveCategory(cateory);
 
             return RedirectToAction(nameof(Index));
         }
@@ -72,16 +75,14 @@ namespace axy.Controllers
         [HttpGet]
         public ViewResult Categories(int Id)
         {
-            var recipt = new List<ReceiptDto>();
-            recipt.Add(new ReceiptDto() { Id = 1, Name = "Product", Sum = 12.3m });
-            recipt.Add(new ReceiptDto() { Id = 2, Name = "Relax", Sum = 36.7m });
+            var receipt = ReceiptAdapter.GetReceipt();
 
             var expenditure = new List<ExpenditureDto>();
             expenditure.Add(new ExpenditureDto() { Id = 1, Name = "Freelance", Sum = 1000 });
             expenditure.Add(new ExpenditureDto() { Id = 2, Name = "Work to company", Sum = 1000 });
 
             var listCost = new RecieprsExpenditure();
-            listCost.GetReceipts = recipt;
+            listCost.GetReceipts = receipt;
             listCost.GetExpenditures = expenditure;
 
             return View(listCost);
@@ -105,11 +106,40 @@ namespace axy.Controllers
         [HttpGet]
         public ViewResult EditReceipts(int id)
         {
-            var res = new ReceiptDto();
-            res.Id = id;
-            return View(res);
+
+            var model = ReceiptAdapter.GetReceiptDtoId(id);
+
+            return View(model);
         }
 
+
+        [HttpPost]
+        public IActionResult EditReceipts(ReceiptDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                ReceiptAdapter.SaveReceipt(model);
+                TempData["message"] = $"{model} has been saved";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+
+
+        [HttpGet]
+        public IActionResult DeleteReceipts(int Id)
+        {
+            if (Id > 0)
+            {
+                ReceiptAdapter.DeleteReceipt(Id);
+                return RedirectToAction("Index");
+            }          
+           
+            return NotFound();
+        }
 
         [HttpGet]
         public ViewResult EditExpenditures(int id)

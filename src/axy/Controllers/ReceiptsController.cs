@@ -1,5 +1,8 @@
 ﻿using axy.Models.Entities;
 
+using DataAccessLayer.Adapters.Category;
+using DataAccessLayer.Entities;
+
 using Microsoft.AspNetCore.Mvc;
 
 using System;
@@ -13,10 +16,9 @@ namespace axy.Controllers
     {
         public IActionResult Index()
         {
-            var recipt = new List<ReceiptDto>();
-            recipt.Add(new ReceiptDto() { Id = 1, Name = "Product", Sum = 12.3m });
-            recipt.Add(new ReceiptDto() { Id = 2, Name = "Relax", Sum = 36.7m });
-            return View(recipt);
+            var receipt = ReceiptAdapter.GetReceipt();
+           
+            return View(receipt);
         }
 
         [HttpGet]

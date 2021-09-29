@@ -1,4 +1,6 @@
-﻿using axy.Models.Entities;
+﻿
+
+using DataAccessLayer.Entities;
 
 using Microsoft.AspNetCore.Mvc;
 
