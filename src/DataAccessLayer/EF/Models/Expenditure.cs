@@ -14,8 +14,7 @@ namespace DataAccessLayer.EF.Models
         public string Name { get; set; }
 
         public decimal Sum { get; set; }
-
-        public int ExpenditureId { get; set; }
+       
         public Category Categories { get; set; }
     }
 }

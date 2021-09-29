@@ -162,6 +162,12 @@ namespace DataAccessLayer.Adapters.Helpers
             return result;
         }
 
+        internal static string RawSafeSglDecimal(object s)
+        {
+            var res = s.ToString().Replace(",", ".");
+            return res;
+        }
+
         #region RowsDataRegion
         internal static string GetFirstRowValueFromDataTableByName(DataTable dataTable, string name)
         {

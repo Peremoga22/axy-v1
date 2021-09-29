@@ -41,7 +41,7 @@ namespace DataAccessLayer.Adapters.Category
             var sql = string.Format(@"EXEC [sp_SaveReceipt] {0}, {1},{2}",
             DataBaseHelper.RawSafeSqlString(model.Id),
             DataBaseHelper.RawSafeSqlString(model.Name),
-            DataBaseHelper.RawSafeSqlString(model.Sum));      
+            DataBaseHelper.RawSafeSglDecimal(model.Sum));      
             var sqlResult = DataBaseHelper.RunSql(sql);
         }
 

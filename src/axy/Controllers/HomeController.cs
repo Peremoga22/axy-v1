@@ -76,10 +76,7 @@ namespace axy.Controllers
         public ViewResult Categories(int Id)
         {
             var receipt = ReceiptAdapter.GetReceipt();
-
-            var expenditure = new List<ExpenditureDto>();
-            expenditure.Add(new ExpenditureDto() { Id = 1, Name = "Freelance", Sum = 1000 });
-            expenditure.Add(new ExpenditureDto() { Id = 2, Name = "Work to company", Sum = 1000 });
+            var expenditure = ExpenditureAdapter.GetExpenditure();          
 
             var listCost = new RecieprsExpenditure();
             listCost.GetReceipts = receipt;
@@ -144,10 +141,24 @@ namespace axy.Controllers
         [HttpGet]
         public ViewResult EditExpenditures(int id)
         {
-            var res = new ExpenditureDto();
-            res.Id = id;
+            var res = ExpenditureAdapter.GetExpenditureDtoId(id);
+           
             return View(res);
         }
+
+        [HttpPost]
+        public IActionResult EditExpenditures(ExpenditureDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                ExpenditureAdapter.SaveExpenditure(model);
                
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
+        }
     }
 }
