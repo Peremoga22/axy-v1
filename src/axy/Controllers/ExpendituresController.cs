@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace axy.Controllers
 {
-    public class ReceiptsController : Controller
+    public class ExpendituresController : Controller
     {
         public IActionResult Index()
         {
-            var recipt = new List<ReceiptDto>();
-            recipt.Add(new ReceiptDto() { Id = 1, Name = "Product", Sum = 12.3m });
-            recipt.Add(new ReceiptDto() { Id = 2, Name = "Relax", Sum = 36.7m });
-            return View(recipt);
+            var expenditure = new List<ExpenditureDto>();
+            expenditure.Add(new ExpenditureDto() { Id = 1, Name = "Freelance", Sum = 1000 });
+            expenditure.Add(new ExpenditureDto() { Id = 2, Name = "Work to company", Sum = 1000 });
+            return View(expenditure);
         }
 
         [HttpGet]

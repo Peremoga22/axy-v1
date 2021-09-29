@@ -104,6 +104,18 @@ namespace axy.Controllers
             }
         }
 
+        [HttpGet]
+        public ViewResult EditReceipts(int id)
+        {
+            return View("EditReceipts");
+        }
+
+
+        [HttpGet]
+        public ViewResult EditExpenditures(int id)
+        {
+            return View("EditExpenditures");
+        }
 
         [HttpGet]
         public RedirectResult CreateReceipt()
@@ -115,7 +127,7 @@ namespace axy.Controllers
         [HttpGet]
         public RedirectResult CreateExpenditure()
         {           
-            return Redirect("/Expenditure/Edit");
+            return Redirect("/Expenditures/Edit");
         }
     }
 }

@@ -25,7 +25,7 @@
                         <td class="text-right">@item.Sum</td>
                         <td class="text-center">
                             <form asp-action="Delete" method="post">
-                                <a asp-action="Edit" class="btn btn-sm btn-outline-dark"
+                                <a asp-action="EditReceipts" class="btn btn-sm btn-outline-dark"
                                    asp-route-Id="@item.Id">
                                     <i style='font-size:14px' class='far'>&#xf044;</i>
 
@@ -39,7 +39,7 @@
                     </tr>
                 }
             </table>
-            <div class="text-right">
+            <div class="text-left">
                 <a asp-action="CreateReceipt" class="btn btn-primary">Add Category</a>
             </div>
         </div>
@@ -60,7 +60,7 @@
                         <td class="text-right">@item.Sum</td>
                         <td class="text-center">
                             <form asp-action="Delete" method="post">
-                                <a asp-action="Edit" class="btn btn-sm btn-outline-dark"
+                                <a asp-action="EditExpenditures" class="btn btn-sm btn-outline-dark"
                                    asp-route-Id="@item.Id">
                                     <i style='font-size:14px' class='far'>&#xf044;</i>
 
@@ -74,7 +74,7 @@
                     </tr>
                 }
             </table>
-            <div class="text-right">
+            <div class="text-left">
                 <a asp-action="CreateExpenditure" class="btn btn-primary">Add Category</a>
             </div>
         </div>
