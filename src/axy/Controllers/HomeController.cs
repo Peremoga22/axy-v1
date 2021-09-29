@@ -12,6 +12,7 @@ using DataAccessLayer;
 using System.Collections;
 using DataAccessLayer.EF.Models;
 using DataAccessLayer.Entities;
+using axy.Models.Entities;
 
 namespace axy.Controllers
 {
@@ -57,7 +58,10 @@ namespace axy.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            var recipt = new List<ReceiptDto>();
+            recipt.Add(new ReceiptDto() { Id = 1, Name = "Product", Sum = 12.3m });
+            recipt.Add(new ReceiptDto() { Id = 2, Name = "Relax", Sum = 36.7m });
+            return View(recipt);
         }
 
         [AllowAnonymous]
@@ -65,6 +69,27 @@ namespace axy.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public ViewResult Categories(int Id)
+        {
+            return View("Categories");
+        }
+
+        [HttpPost]
+        public IActionResult Categories(RecieprsExpenditure model)
+        {
+            if (ModelState.IsValid)
+            {
+                //repository.SaveProduct(product);
+                TempData["message"] = $"{model} has been saved";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
         }
     }
 }

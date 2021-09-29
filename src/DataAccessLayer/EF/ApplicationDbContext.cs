@@ -24,7 +24,7 @@ namespace DataAccessLayer.EF
         }
 
         public DbSet<Category> Categories { get; set; }
-       
-       
+        public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<Expenditure> Expenditures { get; set; }
     }
 }

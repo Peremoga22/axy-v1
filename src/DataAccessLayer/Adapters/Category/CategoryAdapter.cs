@@ -17,26 +17,26 @@ namespace DataAccessLayer
         {
             var result = new List<CategoryDto>();
 
-            string sql = null;
-            sql = string.Format(@"exec [sp_GetCategory]");
-            var sqlResult = DataBaseHelper.GetSqlResult(sql);
+            //string sql = null;
+            //sql = string.Format(@"exec [sp_GetCategory]");
+            //var sqlResult = DataBaseHelper.GetSqlResult(sql);
 
-            if (sqlResult.Rows.Count > 0)
-            {
-                foreach (DataRow item in sqlResult.Rows)
-                {
-                    result.Add(new CategoryDto
-                    {
-                        Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "Id"),
-                        Name = DataBaseHelper.GetValueFromRowByName(item, "Name"),
-                        Description = DataBaseHelper.GetValueFromRowByName(item, "Cost") ,
-                        CurrentDate = DataBaseHelper.GetValueFromRowByName(item, "CurentDate"),
-                        Cost = DataBaseHelper.GetDecimalValueFromRowByName(item, "Cost"),
-                        Income = DataBaseHelper.GetDecimalValueFromRowByName(item, "Income"),
-                        IsIncome = DataBaseHelper.GetBoolValueFromRowByName(item, "IsIncome")
-                    });
-                }
-            }
+            //if (sqlResult.Rows.Count > 0)
+            //{
+            //    foreach (DataRow item in sqlResult.Rows)
+            //    {
+            //        result.Add(new CategoryDto
+            //        {
+            //            Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "Id"),
+            //            Name = DataBaseHelper.GetValueFromRowByName(item, "Name"),
+            //            Description = DataBaseHelper.GetValueFromRowByName(item, "Cost") ,
+            //            CurrentDate = DataBaseHelper.GetValueFromRowByName(item, "CurentDate"),
+            //            Cost = DataBaseHelper.GetDecimalValueFromRowByName(item, "Cost"),
+            //            Income = DataBaseHelper.GetDecimalValueFromRowByName(item, "Income"),
+            //            IsIncome = DataBaseHelper.GetBoolValueFromRowByName(item, "IsIncome")
+            //        });
+            //    }
+            //}
 
             return result;
         }

@@ -14,8 +14,9 @@ namespace DataAccessLayer.EF.Models
         public  string Name { get; set; }
         public string Description { get; set; }
         public string CurentData { get; set; }
-        public decimal Cost { get; set; }
-        public decimal Income { get; set; }
+     
         public bool IsIncome { get; set; }
+        public virtual ICollection<Receipt> Receipts { get; set; }
+        public virtual ICollection<Expenditure> Expenditures { get; set; }
     }
 }
