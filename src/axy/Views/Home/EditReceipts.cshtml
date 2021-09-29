@@ -3,7 +3,15 @@
 @{
     ViewBag.Title = "Edit Receipt";
 }
-<h1>@ViewData["Title"]</h1>
+
+@if (Model.Id > 0)
+{
+    <h5>@ViewData["Title"]</h5>
+}
+else
+{
+    <h5>Add new category</h5>
+}
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="Id" />
     <div class="form-group">

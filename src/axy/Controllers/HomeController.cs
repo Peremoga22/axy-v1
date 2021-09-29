@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using DataAccessLayer;
 using System.Collections;
 using DataAccessLayer.EF.Models;
-using DataAccessLayer.Entities;
+
 using axy.Models.Entities;
 
 namespace axy.Controllers
@@ -45,13 +45,11 @@ namespace axy.Controllers
             var cateory = new CategoryDto();            
             cateory.Name = model.Name;
             cateory.Description = model.Description;
-            cateory.Cost = model.Cost;
-            cateory.CurrentDate = model.CurrentData.ToString();
-            cateory.Income = model.Income;
+           
             cateory.IsIncome = model.IsIncome;
        
            
-            CategoryAdapter.SaveCategory(cateory);
+           // CategoryAdapter.SaveCategory(cateory);
 
             return RedirectToAction(nameof(Index));
         }
@@ -107,27 +105,19 @@ namespace axy.Controllers
         [HttpGet]
         public ViewResult EditReceipts(int id)
         {
-            return View("EditReceipts");
+            var res = new ReceiptDto();
+            res.Id = id;
+            return View(res);
         }
 
 
         [HttpGet]
         public ViewResult EditExpenditures(int id)
         {
-            return View("EditExpenditures");
+            var res = new ExpenditureDto();
+            res.Id = id;
+            return View(res);
         }
-
-        [HttpGet]
-        public RedirectResult CreateReceipt()
-        {          
-           return Redirect("/Receipts/Edit");
-        }
-
-
-        [HttpGet]
-        public RedirectResult CreateExpenditure()
-        {           
-            return Redirect("/Expenditures/Edit");
-        }
+               
     }
 }

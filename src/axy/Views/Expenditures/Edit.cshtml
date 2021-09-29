@@ -4,14 +4,14 @@
     ViewBag.Title = "Edit Expenditure";
 }
 
-@if (Model.Id > 0)
+@if (Model!= null)
 {
-    <h1>@ViewData["Title"]</h1>
+    <h5>@ViewData["Title"]</h5>
 
 }
 else
 {
-    <h1>Add new Expenditure</h1>
+    <h5>Add new Expenditure</h5>
 }
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="Id" />
