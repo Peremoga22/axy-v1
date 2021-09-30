@@ -10,11 +10,9 @@ namespace DataAccessLayer.EF.Models
     public class Expenditure
     {
         [Key]
-        public int Id { get; set; }
+        public int ExpenditureId { get; set; }
         public string Name { get; set; }
-
-        public decimal Sum { get; set; }
-       
-        public virtual Category Categories { get; set; }
+        public decimal Sum { get; set; }      
+            
     }
 }

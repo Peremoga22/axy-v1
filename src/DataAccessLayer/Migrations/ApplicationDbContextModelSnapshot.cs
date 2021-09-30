@@ -21,7 +21,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.EF.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -32,26 +32,33 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ExpenditureId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsIncome")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("ReceiptId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId");
+
+                    b.HasIndex("ExpenditureId");
+
+                    b.HasIndex("ReceiptId");
 
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("DataAccessLayer.EF.Models.Expenditure", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ExpenditureId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CategoriesId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -59,22 +66,17 @@ namespace DataAccessLayer.Migrations
                     b.Property<decimal>("Sum")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoriesId");
+                    b.HasKey("ExpenditureId");
 
                     b.ToTable("Expenditures");
                 });
 
             modelBuilder.Entity("DataAccessLayer.EF.Models.Receipt", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ReceiptId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CategoriesId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -82,9 +84,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<decimal>("Sum")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoriesId");
+                    b.HasKey("ReceiptId");
 
                     b.ToTable("Receipts");
                 });
@@ -285,22 +285,19 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.EF.Models.Expenditure", b =>
+            modelBuilder.Entity("DataAccessLayer.EF.Models.Category", b =>
                 {
-                    b.HasOne("DataAccessLayer.EF.Models.Category", "Categories")
-                        .WithMany("Expenditures")
-                        .HasForeignKey("CategoriesId");
+                    b.HasOne("DataAccessLayer.EF.Models.Receipt", "Receipts")
+                        .WithMany()
+                        .HasForeignKey("ExpenditureId");
 
-                    b.Navigation("Categories");
-                });
+                    b.HasOne("DataAccessLayer.EF.Models.Expenditure", "Expenditures")
+                        .WithMany()
+                        .HasForeignKey("ReceiptId");
 
-            modelBuilder.Entity("DataAccessLayer.EF.Models.Receipt", b =>
-                {
-                    b.HasOne("DataAccessLayer.EF.Models.Category", "Categories")
-                        .WithMany("Receipts")
-                        .HasForeignKey("CategoriesId");
+                    b.Navigation("Expenditures");
 
-                    b.Navigation("Categories");
+                    b.Navigation("Receipts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -352,13 +349,6 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccessLayer.EF.Models.Category", b =>
-                {
-                    b.Navigation("Expenditures");
-
-                    b.Navigation("Receipts");
                 });
 #pragma warning restore 612, 618
         }

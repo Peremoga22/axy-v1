@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210927171451_addFildIsIncome")]
-    partial class addFildIsIncome
+    [Migration("20210930172151_InitializeDb")]
+    partial class InitializeDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,49 +23,72 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.EF.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CurentData")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.EF.Models.Price", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("ExpenditureId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("CurentData")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Income")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsIncome")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CategoryId");
+                    b.Property<int?>("ReceiptId")
+                        .HasColumnType("int");
 
-                    b.ToTable("Prices");
+                    b.HasKey("CategoryId");
+
+                    b.HasIndex("ExpenditureId");
+
+                    b.HasIndex("ReceiptId");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.EF.Models.Expenditure", b =>
+                {
+                    b.Property<int>("ExpenditureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Sum")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ExpenditureId");
+
+                    b.ToTable("Expenditures");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.EF.Models.Receipt", b =>
+                {
+                    b.Property<int>("ReceiptId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Sum")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ReceiptId");
+
+                    b.ToTable("Receipts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -264,15 +287,19 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.EF.Models.Price", b =>
+            modelBuilder.Entity("DataAccessLayer.EF.Models.Category", b =>
                 {
-                    b.HasOne("DataAccessLayer.EF.Models.Category", "Category")
-                        .WithMany("Prices")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("DataAccessLayer.EF.Models.Receipt", "Receipts")
+                        .WithMany()
+                        .HasForeignKey("ExpenditureId");
 
-                    b.Navigation("Category");
+                    b.HasOne("DataAccessLayer.EF.Models.Expenditure", "Expenditures")
+                        .WithMany()
+                        .HasForeignKey("ReceiptId");
+
+                    b.Navigation("Expenditures");
+
+                    b.Navigation("Receipts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -324,11 +351,6 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccessLayer.EF.Models.Category", b =>
-                {
-                    b.Navigation("Prices");
                 });
 #pragma warning restore 612, 618
         }

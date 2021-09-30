@@ -32,10 +32,10 @@ namespace axy.Controllers
         [HttpGet]
         public IActionResult Index()
         {                    
-            var receipt = ReceiptAdapter.GetReceipt();
-            var expenditure = ExpenditureAdapter.GetExpenditure();
+            //var receipt = ReceiptAdapter.GetReceipt();
+            //var expenditure = ExpenditureAdapter.GetExpenditure();
                     
-            ViewBag.Categories = new SelectList(receipt, "Id", "Name");
+            //ViewBag.Categories = new SelectList(receipt, "Id", "Name");
             return View();
         }
 

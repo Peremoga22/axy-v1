@@ -10,11 +10,11 @@ namespace DataAccessLayer.EF.Models
     public class Receipt
     {
         [Key]
-        public int Id { get; set; }
+        public int ReceiptId { get; set; }
         public string Name { get; set; }
 
         public decimal Sum { get; set; }
             
-        public virtual Category Categories { get; set; }
+        
     }
 }

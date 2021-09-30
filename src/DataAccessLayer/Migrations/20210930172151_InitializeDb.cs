@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class initializeDb : Migration
+    public partial class InitializeDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,17 +47,31 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Expenditures",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ExpenditureId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_Expenditures", x => x.ExpenditureId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Receipts",
+                columns: table => new
+                {
+                    ReceiptId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Receipts", x => x.ReceiptId);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,66 +181,33 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Prices",
+                name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Money = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CurentData = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Prices", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Prices_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Costs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CostSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CurrentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PriceId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CurentData = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsIncome = table.Column<bool>(type: "bit", nullable: false),
+                    ExpenditureId = table.Column<int>(type: "int", nullable: true),
+                    ReceiptId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Costs", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
                     table.ForeignKey(
-                        name: "FK_Costs_Prices_PriceId",
-                        column: x => x.PriceId,
-                        principalTable: "Prices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Incomes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IncomeSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CurrentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PriceId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Incomes", x => x.Id);
+                        name: "FK_Categories_Expenditures_ReceiptId",
+                        column: x => x.ReceiptId,
+                        principalTable: "Expenditures",
+                        principalColumn: "ExpenditureId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Incomes_Prices_PriceId",
-                        column: x => x.PriceId,
-                        principalTable: "Prices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Categories_Receipts_ExpenditureId",
+                        column: x => x.ExpenditureId,
+                        principalTable: "Receipts",
+                        principalColumn: "ReceiptId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -269,19 +250,14 @@ namespace DataAccessLayer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Costs_PriceId",
-                table: "Costs",
-                column: "PriceId");
+                name: "IX_Categories_ExpenditureId",
+                table: "Categories",
+                column: "ExpenditureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Incomes_PriceId",
-                table: "Incomes",
-                column: "PriceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Prices_CategoryId",
-                table: "Prices",
-                column: "CategoryId");
+                name: "IX_Categories_ReceiptId",
+                table: "Categories",
+                column: "ReceiptId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -302,10 +278,7 @@ namespace DataAccessLayer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Costs");
-
-            migrationBuilder.DropTable(
-                name: "Incomes");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -314,10 +287,10 @@ namespace DataAccessLayer.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Prices");
+                name: "Expenditures");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Receipts");
         }
     }
 }
