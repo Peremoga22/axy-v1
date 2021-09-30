@@ -1,5 +1,5 @@
 ﻿
-@model axy.Models.GetModelView
+@model axy.Models.ModelVueHome
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -19,23 +19,15 @@
                     <input type="number" class="form-control" id="formGroupExampleInput2" name="Cost" placeholder="Sum">
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                    <input class="form-check-input"asp-for="IsIncome" type="checkbox" id="flexSwitchCheckChecked" checked>
                     <label class="form-check-label" for="flexSwitchCheckChecked" name="IsIncome">Receipts/Expenditures </label>
                 </div>
                 <br /><br />
                 <label for="formGroupExampleInput">Category</label><br />
                 <div class="input-group mb-3">
-                
-                    <select class="custom-select" asp-for="Name" id="inputGroupSelect02">
-                            @if (Model != null)
-                            {
-                                @foreach (var itemIndex in Model.GetReceipt)
-                                {
-                                    <option value="itemIndex.Name">@itemIndex.Name</option>
-
-                                }
-                            }
-                        </select>
+                    <select class="custom-select" asp-for="Id"  asp-items="ViewBag.Categories">
+                        <option value=""> Choose an option</option>                     
+                    </select>            
 
                     <div class="input-group-append">
                         <label class="input-group-text" for="inputGroupSelect02">
@@ -54,23 +46,7 @@
                 <input type="submit" class="btn btn-warning btn-lg" value="Save" />
             </form>
         </div>
-        @if (Model != null && Model.GetCategories.Count() > 0)
-            {
-                @foreach (var item in Model.GetCategories)
-                {
-                    <div class="card">
-                        <div class="card-body">
-                            <ul class="list-unstyled text-left">
-                                <li>Current balans:@item.Income</li>
-                                <li>Savings for this month:@item.Cost</li>
-                                <li>Balance at the beginning of the month:</li>
-                            </ul>
-                        </div>
-                    </div>
-                }
-            }
-            else
-        {
+      
         <div class="card">
             <div class="card-body">
                 <ul class="list-unstyled text-left">

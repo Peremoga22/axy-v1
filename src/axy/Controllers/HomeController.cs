@@ -30,23 +30,16 @@ namespace axy.Controllers
 
         [HttpGet]
         public IActionResult Index()
-        {
+        {                    
             var receipt = ReceiptAdapter.GetReceipt();
             var expenditure = ExpenditureAdapter.GetExpenditure();
-
-            var category = CategoryAdapter.GetCategory();
-            
-            var modelView = new GetModelView();
-            modelView.GetCategories = category;
-            modelView.GetReceipt = receipt;
-
-
-            ViewBag.Categories = new SelectList(modelView.GetReceipt, "ReceipId", "Name");
-            return View(modelView);
+                    
+            ViewBag.Categories = new SelectList(receipt, "Id", "Name");
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Index(GetModelView model)
+        public IActionResult Index(ModelVueHome model)
         {
             var cateory = new CategoryDto();
             //cateory.Name = model.Name;
