@@ -17,7 +17,7 @@ namespace DataAccessLayer
         {
             var result = new List<CategoryDto>();
 
-            //string sql = null;
+            string sql = null;
             //sql = string.Format(@"exec [sp_GetCategory]");
             //var sqlResult = DataBaseHelper.GetSqlResult(sql);
 
@@ -29,7 +29,7 @@ namespace DataAccessLayer
             //        {
             //            Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "Id"),
             //            Name = DataBaseHelper.GetValueFromRowByName(item, "Name"),
-            //            Description = DataBaseHelper.GetValueFromRowByName(item, "Cost") ,
+            //            Description = DataBaseHelper.GetValueFromRowByName(item, "Cost"),
             //            CurrentDate = DataBaseHelper.GetValueFromRowByName(item, "CurentDate"),
             //            Cost = DataBaseHelper.GetDecimalValueFromRowByName(item, "Cost"),
             //            Income = DataBaseHelper.GetDecimalValueFromRowByName(item, "Income"),

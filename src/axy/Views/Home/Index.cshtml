@@ -1,10 +1,11 @@
-﻿@using axy.Models
+﻿
+@model axy.Models.GetModelView
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-   
+
     <div>
         <div class="jumbotron">
             <h1 class="display-4">Welcome</h1>
@@ -24,24 +25,25 @@
                 <br /><br />
                 <label for="formGroupExampleInput">Category</label><br />
                 <div class="input-group mb-3">
-                    <select class="custom-select" id="inputGroupSelect02">
-                        @if (Model!= null)
-                        {
-                            @foreach (var itemIndex in Model.GetCategories)
+                
+                    <select class="custom-select" asp-for="Name" id="inputGroupSelect02">
+                            @if (Model != null)
                             {
-                                <option value="itemIndex.Id">@itemIndex.Name</option>
-                            }
-                        }
+                                @foreach (var itemIndex in Model.GetReceipt)
+                                {
+                                    <option value="itemIndex.Name">@itemIndex.Name</option>
 
-                    </select>                  
-                  
+                                }
+                            }
+                        </select>
+
                     <div class="input-group-append">
                         <label class="input-group-text" for="inputGroupSelect02">
-                            <a asp-action="Categories" >
+                            <a asp-action="Categories">
                                 Edit
                             </a>
                         </label>
-                        
+
                     </div>
                 </div>
                 <div class="form-group">
@@ -52,35 +54,34 @@
                 <input type="submit" class="btn btn-warning btn-lg" value="Save" />
             </form>
         </div>
-        @if (Model!= null && Model.GetCategories.Count > 0)
-        {
-           @foreach (var item in Model.GetCategories)
+        @if (Model != null && Model.GetCategories.Count() > 0)
             {
-                <div class="card">
-                    <div class="card-body">
-                        <ul class="list-unstyled text-left">
-                            <li>Current balans:@item.Income</li>
-                            <li>Savings for this month:@item.Cost</li>
-                            <li>Balance at the beginning of the month:</li>
-                        </ul>
+                @foreach (var item in Model.GetCategories)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="list-unstyled text-left">
+                                <li>Current balans:@item.Income</li>
+                                <li>Savings for this month:@item.Cost</li>
+                                <li>Balance at the beginning of the month:</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                }
             }
-        }
-        else
+            else
         {
-            <div class="card">
-                <div class="card-body">
-                    <ul class="list-unstyled text-left">
-                        <li>Current balans: 0</li>
-                        <li>Savings for this month: 0</li>
-                        <li>Balance at the beginning of the month: 0</li>
-                    </ul>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <ul class="list-unstyled text-left">
+                    <li>Current balans: 0</li>
+                    <li>Savings for this month: 0</li>
+                    <li>Balance at the beginning of the month: 0</li>
+                </ul>
             </div>
+        </div>
         }
     </div>
 </div>
 
 
- 

@@ -31,25 +31,28 @@ namespace axy.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var category = CategoryAdapter.GetCategory();
+            var receipt = ReceiptAdapter.GetReceipt();
+            var expenditure = ExpenditureAdapter.GetExpenditure();
 
+            var category = CategoryAdapter.GetCategory();
+            
             var modelView = new GetModelView();
             modelView.GetCategories = category;
+            modelView.GetReceipt = receipt;
 
 
-
-            ViewBag.Categories = new SelectList(category, "Id", "Name");
+            ViewBag.Categories = new SelectList(modelView.GetReceipt, "ReceipId", "Name");
             return View(modelView);
         }
 
         [HttpPost]
-        public IActionResult Index(ModelVueHome model)
+        public IActionResult Index(GetModelView model)
         {
             var cateory = new CategoryDto();
-            cateory.Name = model.Name;
-            cateory.Description = model.Description;
+            //cateory.Name = model.Name;
+            //cateory.Description = model.Description;
 
-            cateory.IsIncome = model.IsIncome;
+            //cateory.IsIncome = model.IsIncome;
 
 
             // CategoryAdapter.SaveCategory(cateory);
@@ -159,6 +162,18 @@ namespace axy.Controllers
             {
                 return View(model);
             }
+        }
+
+        [HttpGet]
+        public IActionResult DeleteExpenditure(int Id)
+        {
+            if (Id > 0)
+            {
+                ExpenditureAdapter.DeleteExpenditure(Id);
+                return RedirectToAction("Index");
+            }
+
+            return NotFound();
         }
     }
 }

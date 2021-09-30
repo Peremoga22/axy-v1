@@ -66,5 +66,15 @@ namespace DataAccessLayer.Adapters.Category
             DataBaseHelper.RawSafeSglDecimal(model.Sum));
             var sqlResult = DataBaseHelper.RunSql(sql);
         }
+
+        public static void DeleteExpenditure(int id)
+        {
+            if (id > 0)
+            {
+                string sql = string.Format(@"exec sp_DeleteExpenditure {0}",
+                DataBaseHelper.RawSafeSqlString(id));
+                DataBaseHelper.RunSql(sql);
+            }
+        }
     }
 }

@@ -26,7 +26,7 @@ else
     </div>
     <div class="text-center">
         <button class="btn btn-primary" type="submit">Save</button>
-        <a asp-action="Delete" class="btn btn-secondary">Delete</a>
+        <a asp-action="DeleteExpenditure" asp-controller="Home" asp-route-Id="@Model.Id"  class="btn btn-secondary">Delete</a>
     </div>
 </form>
 
