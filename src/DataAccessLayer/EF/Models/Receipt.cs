@@ -15,6 +15,6 @@ namespace DataAccessLayer.EF.Models
 
         public decimal Sum { get; set; }
             
-        public Category Categories { get; set; }
+        public virtual Category Categories { get; set; }
     }
 }

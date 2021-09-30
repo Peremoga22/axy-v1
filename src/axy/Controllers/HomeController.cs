@@ -1,4 +1,4 @@
-﻿using axy.Models;
+﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,6 +15,7 @@ using DataAccessLayer.EF.Models;
 
 using DataAccessLayer.Adapters.Category;
 using DataAccessLayer.Entities;
+using axy.Models;
 
 namespace axy.Controllers
 {
@@ -41,14 +42,30 @@ namespace axy.Controllers
         [HttpPost]
         public IActionResult Index(ModelVueHome model)
         {
-            var cateory = new CategoryDto();
-            //cateory.Name = model.Name;
-            //cateory.Description = model.Description;
+            var category = new CategoryDto();
+            if(model.IsIncome==true)
+            {
+                var expenditure = new ExpenditureDto();
+                var expenditureList = ExpenditureAdapter.GetExpenditure();
+                string nameCategory = expenditureList.Where(z => z.Id == model.Id).Select(z=>z.Name).FirstOrDefault();
 
-            //cateory.IsIncome = model.IsIncome;
+                category.Id = model.Id;
+                category.Name = nameCategory;
+                category.Description = model.Description;
+                category.CurrentDate = Convert.ToString(model.CurrentData);
+                category.IsIncome = true;
+                var categoryId =  CategoryAdapter.SaveCategory(category);              
+               
+                expenditure.Name = nameCategory;
+                expenditure.Sum = model.Sum;
+                expenditure.Id = categoryId;
+                ExpenditureAdapter.SaveExpenditure(expenditure);     
+            }
+            else
+            {
+                var receiptList = ReceiptAdapter.GetReceipt();
+            }
 
-
-            // CategoryAdapter.SaveCategory(cateory);
 
             return RedirectToAction(nameof(Index));
         }

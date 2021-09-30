@@ -41,17 +41,25 @@ namespace DataAccessLayer
             return result;
         }
 
-        public static void SaveCategory(CategoryDto model)
-        {           
-             var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3}, {4}, {5}",             
+        public static int SaveCategory(CategoryDto model)
+        {
+            int CategoryId = 0;
+             var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3}",             
              DataBaseHelper.SafeSqlString(model.Name),
-             DataBaseHelper.SafeSqlString(model.Description),
-             DataBaseHelper.SafeSqlString(model.Cost),
-             DataBaseHelper.SafeSqlString(model.CurrentDate.ToString()),
-             DataBaseHelper.SafeSqlString(model.Income),
-             DataBaseHelper.SafeSqlString(model.IsIncome));
-           
-            var sqlResult = DataBaseHelper.GetSqlResult(sql);                                        
+             DataBaseHelper.SafeSqlString(model.Description),            
+             DataBaseHelper.SafeSqlString(model.CurrentDate.ToString()),            
+             DataBaseHelper.SafeSqlString(model.IsIncome));           
+      
+            var dataResult = DataBaseHelper.GetSqlResult(sql);
+            if (dataResult != null && dataResult.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataResult.Rows)
+                {
+                    CategoryId = DataBaseHelper.GetIntegerValueFromRowByName(dataResult.Rows[0], "CategoryId");
+                }
+            }
+
+            return CategoryId;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace axy.Models
         public int Id { get; set; }
        
         public string Description { get; set; }
-        public decimal Cost { get; set; }
+        public decimal Sum { get; set; }
         public DateTime CurrentData { get; set; }  
      
         public bool IsIncome { get; set; }
