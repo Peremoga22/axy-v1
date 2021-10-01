@@ -58,13 +58,24 @@ namespace DataAccessLayer.Adapters.Category
             return result;
         }
 
-        public static void SaveExpenditure(ExpenditureDto model)
-        {          
+        public static int SaveExpenditure(ExpenditureDto model)
+        {
+            var ExpenditureId = 0;
             var sql = string.Format(@"EXEC [sp_SaveExpenditure] {0}, {1},{2}",
             DataBaseHelper.RawSafeSqlString(model.Id),
             DataBaseHelper.SafeSqlString(model.Name),
-            DataBaseHelper.RawSafeSglDecimal(model.Sum));           
-            var sqlResult = DataBaseHelper.RunSql(sql);
+            DataBaseHelper.RawSafeSglDecimal(model.Sum));
+
+            var dataResult = DataBaseHelper.GetSqlResult(sql);
+            if (dataResult != null && dataResult.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataResult.Rows)
+                {
+                    ExpenditureId = DataBaseHelper.GetIntegerValueFromRowByName(dataResult.Rows[0], "ExpenditureId");
+                }
+            }
+
+            return ExpenditureId;
         }
 
         public static void DeleteExpenditure(int id)

@@ -41,25 +41,30 @@ namespace DataAccessLayer
             return result;
         }
 
-        public static int SaveCategory(CategoryDto model)
+        public static void SaveCategory(CategoryDto model)
         {
-            int CategoryId = 0;
-             var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3}",             
+             model.Id = 0;
+            if(model.ReceiptId == 0)
+            {
+                model.ReceiptId = null;
+            }
+            
+            if(model.ExpenditureId == 0)
+            {
+                model.ExpenditureId = null;
+            }
+
+             var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3},{4},{5},{6}",
+             DataBaseHelper.RawSafeSqlString(model.Id),
              DataBaseHelper.SafeSqlString(model.Name),
              DataBaseHelper.SafeSqlString(model.Description),            
              DataBaseHelper.SafeSqlString(model.CurrentDate.ToString()),            
-             DataBaseHelper.SafeSqlString(model.IsIncome));           
+             DataBaseHelper.RawSafeSqlString(model.IsIncome),
+             DataBaseHelper.RawSafeSqlString(model.ExpenditureId),
+             DataBaseHelper.RawSafeSqlString(model.ReceiptId));           
       
-            var dataResult = DataBaseHelper.GetSqlResult(sql);
-            if (dataResult != null && dataResult.Rows.Count > 0)
-            {
-                foreach (DataRow row in dataResult.Rows)
-                {
-                    CategoryId = DataBaseHelper.GetIntegerValueFromRowByName(dataResult.Rows[0], "CategoryId");
-                }
-            }
-
-            return CategoryId;
+            var dataResult = DataBaseHelper.RunSql(sql);
+           
         }
     }
 }

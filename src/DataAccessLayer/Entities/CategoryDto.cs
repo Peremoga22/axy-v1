@@ -15,5 +15,7 @@ namespace DataAccessLayer.Entities
         public bool IsIncome { get; set; }
         public decimal Cost { get; set; }
         public decimal Income { get; set; }
+        public int? ExpenditureId { get; set; }
+        public int? ReceiptId { get; set; }
     }
 }

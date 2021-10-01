@@ -49,17 +49,20 @@ namespace axy.Controllers
                 var expenditureList = ExpenditureAdapter.GetExpenditure();
                 string nameCategory = expenditureList.Where(z => z.Id == model.Id).Select(z=>z.Name).FirstOrDefault();
 
+                expenditure.Name = nameCategory;
+                expenditure.Sum = model.Sum;              
+                var ExpenditureId =  ExpenditureAdapter.SaveExpenditure(expenditure);
+
+
                 category.Id = model.Id;
                 category.Name = nameCategory;
                 category.Description = model.Description;
                 category.CurrentDate = Convert.ToString(model.CurrentData);
                 category.IsIncome = true;
-                var categoryId =  CategoryAdapter.SaveCategory(category);              
+                category.ExpenditureId = ExpenditureId;
+                CategoryAdapter.SaveCategory(category);              
                
-                expenditure.Name = nameCategory;
-                expenditure.Sum = model.Sum;
-                expenditure.Id = categoryId;
-                ExpenditureAdapter.SaveExpenditure(expenditure);     
+                
             }
             else
             {

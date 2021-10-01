@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -163,16 +164,11 @@ namespace DataAccessLayer.Adapters.Helpers
         }
 
         internal static string RawSafeSglDecimal(object s)
-        {
+        {                       
 
-            if (s == null || string.IsNullOrEmpty(s.ToString()))
-            {
-                return "null";
-            }
+            var res = s.ToString().Replace(",", ".");           
 
-            var res = s.ToString().Replace(",", ".");
-         
-            return res.ToString();
+            return res;
         }
 
         #region RowsDataRegion
