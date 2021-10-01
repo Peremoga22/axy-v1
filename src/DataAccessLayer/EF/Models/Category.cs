@@ -17,10 +17,9 @@ namespace DataAccessLayer.EF.Models
         public string CurentData { get; set; }
      
         public bool IsIncome { get; set; }
-        
-        [ForeignKey("ExpenditureId")]      
+        [ForeignKey("ReceiptId")]        
          public virtual Receipt Receipts { get; set; }
-        [ForeignKey("ReceiptId")]
+        [ForeignKey("ExpenditureId")]
         public virtual Expenditure Expenditures { get; set; }
     }
 }

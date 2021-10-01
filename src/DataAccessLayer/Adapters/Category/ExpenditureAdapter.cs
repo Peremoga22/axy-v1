@@ -27,7 +27,7 @@ namespace DataAccessLayer.Adapters.Category
                 {
                     result.Add(new ExpenditureDto
                     {
-                        Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "Id"),
+                        Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "ExpenditureId"),
                         Name = DataBaseHelper.GetValueFromRowByName(item, "Name"),
                         Sum = DataBaseHelper.GetDecimalValueFromRowByName(item, "Sum")
                     });
@@ -49,7 +49,7 @@ namespace DataAccessLayer.Adapters.Category
             {
                 result = new ExpenditureDto
                 {
-                    Id = DataBaseHelper.GetIntegerValueFromRowByName(sqlResult.Rows[0], "Id"),
+                    Id = DataBaseHelper.GetIntegerValueFromRowByName(sqlResult.Rows[0], "ExpenditureId"),
                     Name = DataBaseHelper.GetValueFromRowByName(sqlResult.Rows[0], "Name"),
                     Sum = DataBaseHelper.GetDecimalValueFromRowByName(sqlResult.Rows[0], "Sum")
                 };
@@ -60,11 +60,10 @@ namespace DataAccessLayer.Adapters.Category
 
         public static void SaveExpenditure(ExpenditureDto model)
         {          
-            var sql = string.Format(@"EXEC [sp_SaveExpenditure] {0}, {1},{2},{3}",
+            var sql = string.Format(@"EXEC [sp_SaveExpenditure] {0}, {1},{2}",
             DataBaseHelper.RawSafeSqlString(model.Id),
             DataBaseHelper.SafeSqlString(model.Name),
-            DataBaseHelper.RawSafeSglDecimal(model.Sum),
-             DataBaseHelper.RawSafeSqlString(model.CategoryId));
+            DataBaseHelper.RawSafeSglDecimal(model.Sum));           
             var sqlResult = DataBaseHelper.RunSql(sql);
         }
 

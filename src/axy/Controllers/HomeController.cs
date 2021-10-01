@@ -31,11 +31,11 @@ namespace axy.Controllers
 
         [HttpGet]
         public IActionResult Index()
-        {                    
-            //var receipt = ReceiptAdapter.GetReceipt();
-            //var expenditure = ExpenditureAdapter.GetExpenditure();
-                    
-            //ViewBag.Categories = new SelectList(receipt, "Id", "Name");
+        {
+            var receipt = ReceiptAdapter.GetReceipt();
+            var expenditure = ExpenditureAdapter.GetExpenditure();
+
+            ViewBag.Categories = new SelectList(expenditure, "Id", "Name");
             return View();
         }
 

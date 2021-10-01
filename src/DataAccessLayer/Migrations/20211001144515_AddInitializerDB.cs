@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class InitializeDb : Migration
+    public partial class AddInitializerDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -190,21 +190,21 @@ namespace DataAccessLayer.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurentData = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsIncome = table.Column<bool>(type: "bit", nullable: false),
-                    ExpenditureId = table.Column<int>(type: "int", nullable: true),
-                    ReceiptId = table.Column<int>(type: "int", nullable: true)
+                    ReceiptId = table.Column<int>(type: "int", nullable: true),
+                    ExpenditureId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryId);
                     table.ForeignKey(
-                        name: "FK_Categories_Expenditures_ReceiptId",
-                        column: x => x.ReceiptId,
+                        name: "FK_Categories_Expenditures_ExpenditureId",
+                        column: x => x.ExpenditureId,
                         principalTable: "Expenditures",
                         principalColumn: "ExpenditureId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Categories_Receipts_ExpenditureId",
-                        column: x => x.ExpenditureId,
+                        name: "FK_Categories_Receipts_ReceiptId",
+                        column: x => x.ReceiptId,
                         principalTable: "Receipts",
                         principalColumn: "ReceiptId",
                         onDelete: ReferentialAction.Restrict);

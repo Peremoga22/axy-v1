@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210930172151_InitializeDb")]
-    partial class InitializeDb
+    [Migration("20211001144515_AddInitializerDB")]
+    partial class AddInitializerDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -289,11 +289,11 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.EF.Models.Category", b =>
                 {
-                    b.HasOne("DataAccessLayer.EF.Models.Receipt", "Receipts")
+                    b.HasOne("DataAccessLayer.EF.Models.Expenditure", "Expenditures")
                         .WithMany()
                         .HasForeignKey("ExpenditureId");
 
-                    b.HasOne("DataAccessLayer.EF.Models.Expenditure", "Expenditures")
+                    b.HasOne("DataAccessLayer.EF.Models.Receipt", "Receipts")
                         .WithMany()
                         .HasForeignKey("ReceiptId");
 

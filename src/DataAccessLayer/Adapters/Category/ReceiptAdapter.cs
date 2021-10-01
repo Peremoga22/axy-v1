@@ -26,7 +26,7 @@ namespace DataAccessLayer.Adapters.Category
                 {
                     result.Add(new ReceiptDto
                     {
-                        Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "Id"),
+                        Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "ReceiptId"),
                         Name = DataBaseHelper.GetValueFromRowByName(item, "Name"),
                         Sum = DataBaseHelper.GetDecimalValueFromRowByName(item, "Sum")                       
                     });
@@ -41,7 +41,7 @@ namespace DataAccessLayer.Adapters.Category
             var sql = string.Format(@"EXEC [sp_SaveReceipt] {0}, {1},{2}",
             DataBaseHelper.RawSafeSqlString(model.Id),
             DataBaseHelper.RawSafeSqlString(model.Name),
-            DataBaseHelper.RawSafeSglDecimal(model.Sum));      
+            DataBaseHelper.SafeSqlString(model.Sum));      
             var sqlResult = DataBaseHelper.RunSql(sql);
         }
 
@@ -57,7 +57,7 @@ namespace DataAccessLayer.Adapters.Category
             {
                 result = new ReceiptDto
                 {
-                    Id = DataBaseHelper.GetIntegerValueFromRowByName(sqlResult.Rows[0], "Id"),
+                    Id = DataBaseHelper.GetIntegerValueFromRowByName(sqlResult.Rows[0], "ReceiptId"),
                     Name = DataBaseHelper.GetValueFromRowByName(sqlResult.Rows[0], "Name"),
                     Sum = DataBaseHelper.GetDecimalValueFromRowByName(sqlResult.Rows[0], "Sum")                  
                 };

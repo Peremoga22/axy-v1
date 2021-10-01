@@ -287,11 +287,11 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.EF.Models.Category", b =>
                 {
-                    b.HasOne("DataAccessLayer.EF.Models.Receipt", "Receipts")
+                    b.HasOne("DataAccessLayer.EF.Models.Expenditure", "Expenditures")
                         .WithMany()
                         .HasForeignKey("ExpenditureId");
 
-                    b.HasOne("DataAccessLayer.EF.Models.Expenditure", "Expenditures")
+                    b.HasOne("DataAccessLayer.EF.Models.Receipt", "Receipts")
                         .WithMany()
                         .HasForeignKey("ReceiptId");
 

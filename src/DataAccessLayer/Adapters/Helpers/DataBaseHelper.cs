@@ -164,8 +164,15 @@ namespace DataAccessLayer.Adapters.Helpers
 
         internal static string RawSafeSglDecimal(object s)
         {
+
+            if (s == null || string.IsNullOrEmpty(s.ToString()))
+            {
+                return "null";
+            }
+
             var res = s.ToString().Replace(",", ".");
-            return res;
+         
+            return res.ToString();
         }
 
         #region RowsDataRegion
