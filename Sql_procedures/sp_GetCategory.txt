@@ -1,0 +1,58 @@
+USE [axy]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		
+-- Create date: 
+-- Description:
+-- =============================================
+ALTER procedure [dbo].[sp_GetCategory] 
+	
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+	BEGIN 
+	Select 
+		c.CategoryId,
+		c.Name as CategoryName,
+		c.Description,
+		c.CurentData,
+		c.IsIncome,
+		c.ReceiptId,		
+		rec.Name as NameReceipt,
+		rec.Sum as SumReceipt,
+		c.ExpenditureId,		
+		ex.Name as NameExpenditure,
+		ex.Sum as SumExpenditure
+	From Categories c
+	left join Receipts rec on rec.ReceiptId= c.ReceiptId
+	left join Expenditures ex on ex.ExpenditureId = c.ExpenditureId
+		
+			
+	END 
+	
+END
+
+--exec [sp_GetCategory]
+--select * from Expenditures
+delete  from Expenditures
+delete  from Receipts
+delete  from Categories
+--exec [sp_GetCategory]
+  
+  select * from Expenditures
+  select * from Receipts
+  select * from Categories
+
+
+
+
+
+
+
+	

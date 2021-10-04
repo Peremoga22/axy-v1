@@ -1,0 +1,29 @@
+USE [axy]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		
+-- Create date: 
+-- Description:
+-- =============================================
+Create procedure [dbo].[sp_RemoveCategory] 
+		@Id int		
+AS
+BEGIN	
+	SET NOCOUNT ON;	
+    BEGIN 	
+		 Delete from Categories
+		 where CategoryId = @Id 
+	END	
+	
+END
+
+
+
+
+
+	

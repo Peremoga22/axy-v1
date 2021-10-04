@@ -1,0 +1,72 @@
+USE [axy]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		
+-- Create date: 
+-- Description:
+-- =============================================
+Create procedure [dbo].[sp_SaveCategory] 
+		@Id int,
+		@Name nvarchar(25),
+		@Description nvarchar(max),
+		@CurrentDate  nvarchar,
+		@IsIncome bit,
+		@ExpenditureId int,
+		@ReceiptId int
+AS
+BEGIN	
+	--SET NOCOUNT ON;
+	SET IDENTITY_INSERT Categories Off	
+
+	if(@Id > 0)
+
+	begin
+		Update Categories
+		SET 
+		Name =@Name,
+		Description = @Description,
+		CurentData = @CurrentDate,
+		IsIncome =@IsIncome,
+		ExpenditureId = @ExpenditureId,
+		ReceiptId =@ReceiptId
+		WHERE CategoryId =@Id
+ 	end
+	else
+    BEGIN 	
+		  INSERT Into Categories 
+		  (
+			  Name,
+			  Description,
+			  CurentData,
+			  IsIncome,
+			  ExpenditureId,
+			  ReceiptId
+		  )
+		  Values
+		  (			 
+			  @Name,
+			  @Description,
+			  @CurrentDate,
+			  @IsIncome,
+			  @ExpenditureId,
+			  @ReceiptId		 
+		  )		 
+	END	
+	
+END
+
+ 
+
+ --exec [sp_SaveCategory] 0,'Test','qqqqqqqq','12/10/2021',1,1,5
+
+ --select * from Categories
+ --select * from Expenditures
+ --select * from Receipts
+
+
+

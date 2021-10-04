@@ -1,0 +1,43 @@
+USE [axy]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		
+-- Create date: 
+-- Description:
+-- =============================================
+Create procedure [dbo].[sp_GetReceiptDetailID] 
+		@Id int
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+	BEGIN 
+
+		SELECT 
+			ReceiptId,
+			Name,
+			Sum
+		FROM Receipts
+		Where ReceiptId = @Id			
+			
+	END 
+	
+END
+
+
+
+  
+
+
+
+
+
+
+
+
+	

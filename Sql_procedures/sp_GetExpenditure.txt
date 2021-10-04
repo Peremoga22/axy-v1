@@ -1,0 +1,42 @@
+USE [axy]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		
+-- Create date: 
+-- Description:
+-- =============================================
+Create procedure [dbo].[sp_GetExpenditure] 
+		
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+	BEGIN 
+
+		SELECT 
+			ExpenditureId,
+			Name,
+			Sum
+		FROM Expenditures			
+			
+	END 
+	
+END
+
+
+
+  
+
+
+
+
+
+
+
+
+	
