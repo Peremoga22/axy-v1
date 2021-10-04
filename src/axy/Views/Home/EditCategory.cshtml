@@ -1,0 +1,81 @@
+﻿@model DataAccessLayer.Entities.CategoryDto
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (Model.Id > 0)
+{
+    <h5>@ViewData["Title"]</h5>
+
+}
+
+
+<div class="text-center">
+
+    <div>
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome</h1>
+            <form asp-action="EditCategory" asp-controller="Home" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label>Date time</label>
+                    <input type="date" class="form-control" asp-for="CurrentDate">
+                </div>
+                @if (Model.ExpenditureId > 0)
+                {
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Sum</label>
+                        <input class="form-control" id="formGroupExampleInput2" asp-for="SumExpenditure" placeholder="Sum">
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Sum</label>
+                        <input class="form-control" id="formGroupExampleInput2" asp-for="SumReceipt" placeholder="Sum">
+                    </div>
+                }
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" asp-for="IsIncome" type="checkbox" id="flexSwitchCheckChecked" checked>
+                    <label class="form-check-label" for="flexSwitchCheckChecked" asp-for="IsIncome">Receipts/Expenditures </label>
+                </div>
+                <br /><br />
+                <label for="formGroupExampleInput">Category</label><br />
+                <div class="input-group mb-3">
+                    <select class="custom-select" asp-for="Id" asp-items="ViewBag.Categories">
+                        <option value=""> Choose an option</option>
+                    </select>
+                     @*<a asp-action="RemoveCategory" asp-controller="Home" asp-route-id="@Model.Id">Удалить</a>*@
+                    <div class="input-group-append">
+                        <label class="input-group-text">
+                            <a asp-action="RemoveCategory" asp-controller="Home" asp-route-id="@Model.Id">Delete</a>
+
+                        </label>
+
+                </div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput2">Description</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput2" asp-for="DescriptionCategory" placeholder="Add description">
+                </div>
+                <br />
+                <input type="submit" class="btn btn-warning btn-lg" value="Save" />
+            </form>         
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <ul class="list-unstyled text-left">
+                    <li>Current balans: 0</li>
+                    <li>Savings for this month: 0</li>
+                    <li>Balance at the beginning of the month: 0</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+

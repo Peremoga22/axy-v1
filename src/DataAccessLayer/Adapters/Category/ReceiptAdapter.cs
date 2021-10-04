@@ -44,7 +44,7 @@ namespace DataAccessLayer.Adapters.Category
             {
                sql = string.Format(@"EXEC [sp_SaveReceipt] {0}, {1},{2}",
                DataBaseHelper.RawSafeSqlString(model.Id),
-               DataBaseHelper.RawSafeSqlString(model.Name),
+               DataBaseHelper.SafeSqlString(model.Name),
                DataBaseHelper.RawSafeSglDecimal((decimal)model.Sum));
                var sqlResult = DataBaseHelper.RunSql(sql);
                 return 0;
@@ -52,7 +52,7 @@ namespace DataAccessLayer.Adapters.Category
 
               sql = string.Format(@"EXEC [sp_SaveReceipt] {0}, {1},{2}",
               DataBaseHelper.RawSafeSqlString(model.Id),
-              DataBaseHelper.RawSafeSqlString(model.Name),
+              DataBaseHelper.SafeSqlString(model.Name),
               DataBaseHelper.RawSafeSglDecimal((decimal)model.Sum));
                 var dataResult = DataBaseHelper.GetSqlResult(sql);
                 if (dataResult != null && dataResult.Rows.Count > 0)
@@ -91,7 +91,7 @@ namespace DataAccessLayer.Adapters.Category
         {
             if (id > 0)
             {
-                string sql = string.Format(@"exec sp_DeleteReceipt {0}",
+                string sql = string.Format(@"exec sp_RemoveReceipt {0}",
                 DataBaseHelper.RawSafeSqlString(id));
                 DataBaseHelper.RunSql(sql);
             }

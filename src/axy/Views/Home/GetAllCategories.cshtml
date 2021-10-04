@@ -11,18 +11,21 @@
             <th class="text-right">Sum</th>
             <th class="text-right">Name</th>
             <th class="text-right">Date Time</th>
+            <th class="text-right">Description</th>
             <th class="text-center">Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach(var item in Model)
-        {
+         {
+
             <tr>
-                @if(item.IsIncome)
+                @if (item.IsIncome)
                 {
                     <td class="text-right" style="color:red">@item.SumExpenditure</td>
                     <td class="text-right">@item.NameExpenditure</td>
                     <td class="text-right">@item.CurrentDate</td>
+                    <td class="text-right">@item.DescriptionCategory</td>
 
                 }
                 else
@@ -30,23 +33,24 @@
                     <td class="text-right" style="color:green">@item.SumReceipt</td>
                     <td class="text-right">@item.NameReceipt</td>
                     <td class="text-right">@item.CurrentDate</td>
+                    <td class="text-right">@item.DescriptionCategory</td>
                 }
 
 
                 <td class="text-center">
                     <form asp-action="Delete" method="post">
-                        <a asp-action="Edit" class="btn btn-sm btn-outline-dark"
+                        <a asp-action="EditCategory" class="btn btn-sm btn-outline-dark"
                            asp-route-Id="@item.Id">
                             <i style='font-size:14px' class='far'>&#xf044;</i>
 
                         </a>
                         @*<input type="hidden" name="Id" value="@item.Id" />
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            Delete
-                        </button>*@
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Delete
+                    </button>*@
                     </form>
                 </td>
             </tr>
-        }
+         }
     </tbody>
 </table>

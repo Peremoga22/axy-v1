@@ -27,16 +27,19 @@ namespace DataAccessLayer
                 {
                     result.Add(new CategoryDto
                     {
-                        // Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "Id"),
-                        NameExpenditure = DataBaseHelper.GetValueFromRowByName(item, "NameExpenditure"),
-                        SumExpenditure = DataBaseHelper.GetDecimalValueFromRowByName(item, "SumExpenditure"),
+                        Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "CategoryId"),
+                        NameCategory = DataBaseHelper.GetValueFromRowByName(item, "CategoryName"),
+                        DescriptionCategory = DataBaseHelper.GetValueFromRowByName(item, "Description"),
+                        CurrentDate = DataBaseHelper.GetDateTimeValueFromRowByName(item, "CurentData"),
+                        IsIncome = DataBaseHelper.GetBoolValueFromRowByName(item, "IsIncome"),
+                        ReceiptId = DataBaseHelper.GetIntegerValueFromRowByName(item, "ReceiptId"),
                         NameReceipt = DataBaseHelper.GetValueFromRowByName(item, "NameReceipt"),
                         SumReceipt = DataBaseHelper.GetDecimalValueFromRowByName(item, "SumReceipt"),
-                        CurrentDate = DataBaseHelper.GetDateTimeValueFromRowByName(item, "CurentDataCategory"),
-                        DescriptionCategory = DataBaseHelper.GetValueFromRowByName(item, "DescriptionCategory"),                       
-                        IsIncome = DataBaseHelper.GetBoolValueFromRowByName(item, "IsIncomeCategory"),
-                        NameCategory = DataBaseHelper.GetValueFromRowByName(item, "NameCategory")
-                    });
+                        ExpenditureId = DataBaseHelper.GetIntegerValueFromRowByName(item, "ExpenditureId"),
+                        NameExpenditure = DataBaseHelper.GetValueFromRowByName(item, "NameExpenditure"),
+                        SumExpenditure = DataBaseHelper.GetDecimalValueFromRowByName(item, "SumExpenditure")
+                                              
+                    }) ;
                 }
             }
 
@@ -66,6 +69,45 @@ namespace DataAccessLayer
              DataBaseHelper.RawSafeSqlString(model.ReceiptId));           
       
              var dataResult = DataBaseHelper.RunSql(sql);           
+        }
+
+        public static CategoryDto GetReceiptDtoId(int Id)
+        {
+            CategoryDto result = new CategoryDto();
+
+            var sql = string.Format(@"EXEC [sp_GetCategoryDetailID] {0}",
+               DataBaseHelper.RawSafeSqlString(Id));
+            var sqlResult = DataBaseHelper.GetSqlResult(sql);
+
+            if (sqlResult.Rows.Count > 0)
+            {
+                result = new CategoryDto
+                {
+                    Id = DataBaseHelper.GetIntegerValueFromRowByName(sqlResult.Rows[0], "CategoryId"),
+                    NameCategory = DataBaseHelper.GetValueFromRowByName(sqlResult.Rows[0], "CategoryName"),
+                    DescriptionCategory = DataBaseHelper.GetValueFromRowByName(sqlResult.Rows[0], "Description"),
+                    CurrentDate = DataBaseHelper.GetDateTimeValueFromRowByName(sqlResult.Rows[0], "CurentData"),
+                    IsIncome = DataBaseHelper.GetBoolValueFromRowByName(sqlResult.Rows[0], "IsIncome"),
+                    ReceiptId = DataBaseHelper.GetIntegerValueFromRowByName(sqlResult.Rows[0], "ReceiptId"),
+                    NameReceipt = DataBaseHelper.GetValueFromRowByName(sqlResult.Rows[0], "NameReceipt"),
+                    SumReceipt = DataBaseHelper.GetDecimalValueFromRowByName(sqlResult.Rows[0], "SumReceipt"),
+                    ExpenditureId = DataBaseHelper.GetIntegerValueFromRowByName(sqlResult.Rows[0], "ExpenditureId"),
+                    NameExpenditure = DataBaseHelper.GetValueFromRowByName(sqlResult.Rows[0], "NameExpenditure"),
+                    SumExpenditure = DataBaseHelper.GetDecimalValueFromRowByName(sqlResult.Rows[0], "SumExpenditure"),
+                };
+            }
+
+            return result;
+        }
+
+        public static void Delete(int id)
+        {
+            if (id > 0)
+            {
+                string sql = string.Format(@"exec sp_RemoveCategory {0}",
+                DataBaseHelper.RawSafeSqlString(id));
+                DataBaseHelper.RunSql(sql);
+            }
         }
     }
 }

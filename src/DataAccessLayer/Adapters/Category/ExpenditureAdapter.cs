@@ -95,7 +95,7 @@ namespace DataAccessLayer.Adapters.Category
         {
             if (id > 0)
             {
-                string sql = string.Format(@"exec sp_DeleteExpenditure {0}",
+                string sql = string.Format(@"exec sp_RemoveExpenditure {0}",
                 DataBaseHelper.RawSafeSqlString(id));
                 DataBaseHelper.RunSql(sql);
             }
