@@ -60,11 +60,24 @@ namespace DataAccessLayer.Adapters.Category
 
         public static int SaveExpenditure(ExpenditureDto model)
         {
+            var sql = string.Empty;
+            if (model.Id > 0)
+            {
+               
+                sql = string.Format(@"EXEC [sp_SaveExpenditure] {0}, {1},{2}",
+                DataBaseHelper.RawSafeSqlString(model.Id),
+                DataBaseHelper.SafeSqlString(model.Name),
+                DataBaseHelper.RawSafeSglDecimal((decimal)model.Sum));
+
+                DataBaseHelper.RunSql(sql);
+                return 0;
+            }
+
             var ExpenditureId = 0;
-            var sql = string.Format(@"EXEC [sp_SaveExpenditure] {0}, {1},{2}",
+            sql = string.Format(@"EXEC [sp_SaveExpenditure] {0}, {1},{2}",
             DataBaseHelper.RawSafeSqlString(model.Id),
             DataBaseHelper.SafeSqlString(model.Name),
-            DataBaseHelper.RawSafeSglDecimal(model.Sum));
+            DataBaseHelper.RawSafeSglDecimal((decimal)model.Sum));
 
             var dataResult = DataBaseHelper.GetSqlResult(sql);
             if (dataResult != null && dataResult.Rows.Count > 0)

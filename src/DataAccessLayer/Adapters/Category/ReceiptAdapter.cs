@@ -36,13 +36,34 @@ namespace DataAccessLayer.Adapters.Category
             return result;
         }
 
-        public static void SaveReceipt(ReceiptDto model)
+        public static int SaveReceipt(ReceiptDto model)
         {
-            var sql = string.Format(@"EXEC [sp_SaveReceipt] {0}, {1},{2}",
-            DataBaseHelper.RawSafeSqlString(model.Id),
-            DataBaseHelper.RawSafeSqlString(model.Name),
-            DataBaseHelper.RawSafeSglDecimal((decimal)model.Sum));      
-            var sqlResult = DataBaseHelper.RunSql(sql);
+            var sql = string.Empty;
+            var ReceiptId = 0;
+            if (model.Id> 0)
+            {
+               sql = string.Format(@"EXEC [sp_SaveReceipt] {0}, {1},{2}",
+               DataBaseHelper.RawSafeSqlString(model.Id),
+               DataBaseHelper.RawSafeSqlString(model.Name),
+               DataBaseHelper.RawSafeSglDecimal((decimal)model.Sum));
+               var sqlResult = DataBaseHelper.RunSql(sql);
+                return 0;
+            }
+
+              sql = string.Format(@"EXEC [sp_SaveReceipt] {0}, {1},{2}",
+              DataBaseHelper.RawSafeSqlString(model.Id),
+              DataBaseHelper.RawSafeSqlString(model.Name),
+              DataBaseHelper.RawSafeSglDecimal((decimal)model.Sum));
+                var dataResult = DataBaseHelper.GetSqlResult(sql);
+                if (dataResult != null && dataResult.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dataResult.Rows)
+                    {
+                        ReceiptId = DataBaseHelper.GetIntegerValueFromRowByName(dataResult.Rows[0], "ReceiptId");
+                    }
+                }
+
+            return ReceiptId;
         }
 
         public static ReceiptDto GetReceiptDtoId(int contactId)

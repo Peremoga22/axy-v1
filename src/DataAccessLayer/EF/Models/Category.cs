@@ -14,7 +14,7 @@ namespace DataAccessLayer.EF.Models
         public int CategoryId { get; set; }
         public  string Name { get; set; }
         public string Description { get; set; }
-        public string CurentData { get; set; }
+        public DateTime CurentData { get; set; }
      
         public bool IsIncome { get; set; }
         [ForeignKey("ReceiptId")]        

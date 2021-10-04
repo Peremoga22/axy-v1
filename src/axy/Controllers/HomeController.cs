@@ -32,10 +32,18 @@ namespace axy.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            bool isInCome = false;
             var receipt = ReceiptAdapter.GetReceipt();
             var expenditure = ExpenditureAdapter.GetExpenditure();
-
-            ViewBag.Categories = new SelectList(expenditure, "Id", "Name");
+            if(isInCome)
+            {
+                ViewBag.Categories = new SelectList(expenditure, "Id", "Name");
+            }
+            else
+            {
+                ViewBag.Categories = new SelectList(receipt, "Id", "Name");
+            }
+           
             return View();
         }
 
@@ -55,9 +63,9 @@ namespace axy.Controllers
 
 
                 category.Id = model.Id;
-                category.Name = nameCategory;
-                category.Description = model.Description;
-                category.CurrentDate = Convert.ToString(model.CurrentData);
+                category.NameCategory = nameCategory;
+                category.DescriptionCategory = model.Description;
+                category.CurrentDate = model.CurrentData;
                 category.IsIncome = true;
                 category.ExpenditureId = ExpenditureId;
                 CategoryAdapter.SaveCategory(category);              
@@ -66,11 +74,33 @@ namespace axy.Controllers
             }
             else
             {
+                var receipt = new ReceiptDto();
                 var receiptList = ReceiptAdapter.GetReceipt();
+                string nameCategory = receiptList.Where(z => z.Id == model.Id).Select(z => z.Name).FirstOrDefault();
+
+                receipt.Name = nameCategory;
+                receipt.Sum = model.Sum;
+                var receiptId = ReceiptAdapter.SaveReceipt(receipt);
+
+                category.Id = model.Id;
+                category.NameCategory = nameCategory;
+                category.DescriptionCategory = model.Description;
+                category.CurrentDate = model.CurrentData;
+                category.IsIncome = false;
+                category.ReceiptId = receiptId;
+                CategoryAdapter.SaveCategory(category);
             }
 
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult GetAllCategories()
+        {
+            var categoryList = CategoryAdapter.GetCategory();
+            var filter = categoryList.Where(z => !string.IsNullOrEmpty(z.NameCategory)).ToList();
+            return View(filter);
         }
 
         public IActionResult Privacy()

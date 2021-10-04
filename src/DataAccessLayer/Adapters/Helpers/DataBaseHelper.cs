@@ -164,9 +164,16 @@ namespace DataAccessLayer.Adapters.Helpers
         }
 
         internal static string RawSafeSglDecimal(object s)
-        {                       
+        {
+            //if (s.GetType() == typeof(decimal))
+            //{
+            //    var item = s.ToString().Length;
+            //    string i = s.ToString().Insert(item,".00");
+            //    return i;
+            //}
+           
 
-            var res = s.ToString().Replace(",", ".");           
+            var res = s.ToString().Replace(",", ".");
 
             return res;
         }
