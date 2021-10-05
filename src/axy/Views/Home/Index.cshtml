@@ -1,5 +1,6 @@
 ﻿
-@model axy.Models.ModelVueHome
+@*@model axy.Models.ModelVueHome*@
+@model DataAccessLayer.Entities.CategoryDto
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -12,21 +13,21 @@
             <form method="post" asp-controller="Home" asp-action="Index">
                 <div class="form-group">
                     <label >Date time</label>
-                    <input type="date" class="form-control"  name="CurrentData" placeholder="@DateTime.Now">
+                    <input type="date" class="form-control"  name="Model.CurrentDate">
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput2">Sum</label>
-                    <input  class="form-control" id="formGroupExampleInput2" name="Sum" placeholder="Sum">
+                    <input  class="form-control" id="formGroupExampleInput2" name="Model.SumReceipt" placeholder="Sum">
                 </div>
                 <div class="form-check form-switch">
                     <input class="form-check-input"asp-for="IsIncome" type="checkbox" id="flexSwitchCheckChecked" checked>
-                    <label class="form-check-label" for="flexSwitchCheckChecked" name="IsIncome">Receipts/Expenditures </label>
+                    <label class="form-check-label" for="flexSwitchCheckChecked" name="Model.IsIncome">Receipts/Expenditures </label>
                 </div>
                 <br /><br />
                 <label for="formGroupExampleInput">Category</label><br />
                 <div class="input-group mb-3">
                     <select class="custom-select" asp-for="Id"  asp-items="ViewBag.Categories">
-                        <option value=""> Choose an option</option>                     
+                        <option value="Id"> Choose an option</option>                     
                     </select>            
 
                     <div class="input-group-append">
@@ -40,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput2">Description</label>
-                    <input type="text" class="form-control" id="formGroupExampleInput2" name="Description" placeholder="Add description">
+                    <input type="text" class="form-control" id="formGroupExampleInput2" name="Model.DescriptionCategory" placeholder="Add description">
                 </div>
                 <br />
                 <input type="submit" class="btn btn-warning btn-lg" value="Save" />
@@ -50,9 +51,9 @@
         <div class="card">
             <div class="card-body">
                 <ul class="list-unstyled text-left">
-                    <li>Current balans: 0</li>
-                    <li>Savings for this month: 0</li>
-                    <li>Balance at the beginning of the month: 0</li>
+                    <li>Current balans: @Model.CurrentBalance</li>
+                    <li>Savings for this month: @Model.SavingForThisMounth</li>
+                    <li>Balance at the beginning of the month: @Model.BalanceTheBeginningMounth</li>
                 </ul>
             </div>
         </div>       

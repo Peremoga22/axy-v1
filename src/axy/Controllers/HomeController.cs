@@ -32,9 +32,25 @@ namespace axy.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            bool isInCome = true;
+            bool isInCome = false;
             var receipt = ReceiptAdapter.GetReceipt();
             var expenditure = ExpenditureAdapter.GetExpenditure();
+            var category = new CategoryDto();
+            var categoryList = CategoryAdapter.GetCategorySum();
+            var expenditureSum = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();
+            if(expenditureSum > 0)
+            {
+                category.CurrentBalance = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();
+                category.SavingForThisMounth = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();
+                category.BalanceTheBeginningMounth = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();               
+            }
+            else
+            {
+                category.CurrentBalance = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
+                category.SavingForThisMounth = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
+                category.BalanceTheBeginningMounth = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
+            }
+
             if(isInCome)
             {
                 ViewBag.Categories = new SelectList(expenditure, "Id", "Name");
@@ -44,7 +60,7 @@ namespace axy.Controllers
                 ViewBag.Categories = new SelectList(receipt, "Id", "Name");
             }
            
-            return View();
+            return View(category);
         }
 
         [HttpPost]
@@ -59,8 +75,8 @@ namespace axy.Controllers
 
                
                 category.NameCategory = nameCategory;
-                category.DescriptionCategory = model.Description;
-                category.CurrentDate = model.CurrentData;
+                category.DescriptionCategory = model.DescriptionCategory;
+                category.CurrentDate = model.CurrentDate;
                 category.IsIncome = true;
                 category.ExpenditureId = model.Id;
                 CategoryAdapter.SaveCategory(category);              
@@ -69,11 +85,12 @@ namespace axy.Controllers
             else
             {           
                 var receiptList = ReceiptAdapter.GetReceipt();
-                string nameCategory = receiptList.Where(z => z.Id == model.Id).Select(z => z.Name).FirstOrDefault();                            
+                string nameCategory = receiptList.Where(z=>z.Id== model.Id).Select(z => z.Name).FirstOrDefault();                            
                 category.ReceiptId = model.Id;
                 category.NameCategory = nameCategory;
-                category.DescriptionCategory = model.Description;
-                category.CurrentDate = model.CurrentData;
+                category.DescriptionCategory = model.DescriptionCategory;
+                category.CurrentDate = model.CurrentDate;
+               // category.SumReceipt = model.SumReceipt;
                 category.IsIncome = false;
                
                 CategoryAdapter.SaveCategory(category);

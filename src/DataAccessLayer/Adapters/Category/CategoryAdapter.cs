@@ -109,5 +109,32 @@ namespace DataAccessLayer
                 DataBaseHelper.RunSql(sql);
             }
         }
+
+        public static IEnumerable<CategoryDto> GetCategorySum()
+        {
+            var result = new List<CategoryDto>();
+
+            string sql = null;
+            sql = string.Format(@"exec [sp_GetCategorySum]");
+            var sqlResult = DataBaseHelper.GetSqlResult(sql);
+
+            if (sqlResult.Rows.Count > 0)
+            {
+                foreach (DataRow item in sqlResult.Rows)
+                {
+                    result.Add(new CategoryDto
+                    {
+                        Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "CategoryId"),
+                        NameCategory = DataBaseHelper.GetValueFromRowByName(item, "CategoryName"),
+                        DescriptionCategory = DataBaseHelper.GetValueFromRowByName(item, "Description"),
+                        CurrentDate = DataBaseHelper.GetDateTimeValueFromRowByName(item, "CurentData"),                        
+                        SumReceipt = DataBaseHelper.GetDecimalValueFromRowByName(item, "SumReceipt"),                      
+                        SumExpenditure = DataBaseHelper.GetDecimalValueFromRowByName(item, "SumExpenditure")
+                    });
+                }
+            }
+
+            return result;
+        }
     }
 }

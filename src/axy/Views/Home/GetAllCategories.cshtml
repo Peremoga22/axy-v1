@@ -23,7 +23,7 @@
                 @if (item.IsIncome)
                 {
                     <td class="text-right" style="color:red">@item.SumExpenditure</td>
-                    <td class="text-right">@item.NameExpenditure</td>
+                    <td class="text-right">@item.NameCategory</td>
                     <td class="text-right">@item.CurrentDate</td>
                     <td class="text-right">@item.DescriptionCategory</td>
 
@@ -31,7 +31,7 @@
                 else
                 {
                     <td class="text-right" style="color:green">@item.SumReceipt</td>
-                    <td class="text-right">@item.NameReceipt</td>
+                    <td class="text-right">@item.NameCategory</td>
                     <td class="text-right">@item.CurrentDate</td>
                     <td class="text-right">@item.DescriptionCategory</td>
                 }
