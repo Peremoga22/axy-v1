@@ -16,7 +16,7 @@
                     <input type="date" class="form-control"  name="Model.CurrentDate">
                 </div>
                 <div class="form-group">
-                    @if (Model.IsIncome)
+                    @if (!Model.IsIncome)
                     {
                         <label for="formGroupExampleInput2">Sum</label>
                         <input class="form-control" id="formGroupExampleInput2" name="Model.SumReceipt" placeholder="Sum">
@@ -35,15 +35,15 @@
                 <br /><br />
                 <label for="formGroupExampleInput">Category</label><br />
                 <div class="input-group mb-3">
-                    @if (Model.IsIncome)
+                    @if (!Model.IsIncome)
                     {
-                        <select  class="custom-select" asp-for="@Model.Id" name="Model.ReceiptId"  asp-items="ViewBag.ReceiptId">
+                        <select  class="custom-select" asp-for="@Model.ReceiptId" name="Model.ReceiptId"  asp-items="ViewBag.ReceiptId">
                             <option value="Model.NameReceipt"> Choose an option</option>                     
                         </select>  
                     }
                     else
                     {
-                         <select  class="custom-select" asp-for="@Model.Id" name="Model.ExpenditureId"  asp-items="ViewBag.ExpenditureId">
+                         <select  class="custom-select" asp-for="@Model.ExpenditureId" name="Model.ExpenditureId"  asp-items="ViewBag.ExpenditureId">
                             <option value="Model.NameExpenditure"> Choose an option</option>                     
                         </select>  
                     }

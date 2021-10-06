@@ -48,27 +48,54 @@ namespace DataAccessLayer
 
         public static void SaveCategory(CategoryDto model)
         {
-             model.Id = 0;
-            if(model.ReceiptId == 0)
+            if(model.Id > 0)
             {
-                model.ReceiptId = null;
-            }
-            
-            if(model.ExpenditureId == 0)
-            {
-                model.ExpenditureId = null;
-            }
+                if (model.ReceiptId == 0)
+                {
+                    model.ReceiptId = null;
+                }
 
-             var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3},{4},{5},{6}",
-             DataBaseHelper.RawSafeSqlString(model.Id),
-             DataBaseHelper.SafeSqlString(model.NameCategory),
-             DataBaseHelper.SafeSqlString(model.DescriptionCategory),            
-             DataBaseHelper.SafeSqlString(model.CurrentDate),            
-             DataBaseHelper.RawSafeSqlString(model.IsIncome),
-             DataBaseHelper.RawSafeSqlString(model.ExpenditureId),
-             DataBaseHelper.RawSafeSqlString(model.ReceiptId));           
-      
-             var dataResult = DataBaseHelper.RunSql(sql);           
+                if (model.ExpenditureId == 0)
+                {
+                    model.ExpenditureId = null;
+                }
+
+                var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3},{4},{5},{6}",
+                DataBaseHelper.RawSafeSqlString(model.Id),
+                DataBaseHelper.SafeSqlString(model.NameCategory),
+                DataBaseHelper.SafeSqlString(model.DescriptionCategory),
+                DataBaseHelper.SafeSqlString(model.CurrentDate),
+                DataBaseHelper.RawSafeSqlString(model.IsIncome),
+                DataBaseHelper.RawSafeSqlString(model.ExpenditureId),
+                DataBaseHelper.RawSafeSqlString(model.ReceiptId));
+
+                var dataResult = DataBaseHelper.RunSql(sql);
+            }
+            else
+            {               
+                if (model.ReceiptId == 0)
+                {
+                    model.ReceiptId = null;
+                }
+
+                if (model.ExpenditureId == 0)
+                {
+                    model.ExpenditureId = null;
+                }
+
+                var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3},{4},{5},{6}",
+                DataBaseHelper.RawSafeSqlString(model.Id),
+                DataBaseHelper.SafeSqlString(model.NameCategory),
+                DataBaseHelper.SafeSqlString(model.DescriptionCategory),
+                DataBaseHelper.SafeSqlString(model.CurrentDate),
+                DataBaseHelper.RawSafeSqlString(model.IsIncome),
+                DataBaseHelper.RawSafeSqlString(model.ExpenditureId),
+                DataBaseHelper.RawSafeSqlString(model.ReceiptId));
+
+                var dataResult = DataBaseHelper.RunSql(sql);
+            }
+           
+                   
         }
 
         public static CategoryDto GetReceiptDtoId(int Id)

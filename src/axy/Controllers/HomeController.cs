@@ -32,7 +32,7 @@ namespace axy.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            bool isInCome = true;
+            bool isInCome = false;
             var receipt = ReceiptAdapter.GetReceipt();
             var expenditure = ExpenditureAdapter.GetExpenditure();
             var category = new CategoryDto();
@@ -67,7 +67,7 @@ namespace axy.Controllers
         [HttpPost]
         public IActionResult Index(CategoryDto model)
         {
-            model.IsIncome = true;
+            model.IsIncome = false;
             var category = new CategoryDto();
             if(model.IsIncome)
             {
@@ -87,7 +87,7 @@ namespace axy.Controllers
                     category.IsIncome = true;
                     category.ExpenditureId = model.ExpenditureId;
                     CategoryAdapter.SaveCategory(category);
-                }                         
+                }                       
                                
             }
             else
@@ -112,7 +112,6 @@ namespace axy.Controllers
                     CategoryAdapter.SaveCategory(category);
                 }               
             }
-
 
             return RedirectToAction(nameof(Index));
         }
@@ -142,6 +141,63 @@ namespace axy.Controllers
             }
 
             return View(category);
+        }
+
+        [HttpPost]
+        public IActionResult SaveCategory(CategoryDto model)
+        {
+            model.IsIncome = false;
+            var category = new CategoryDto();
+            if (model.IsIncome)
+            {
+                if (ModelState.IsValid)
+                {
+                    var expenditureModel = new ExpenditureDto();
+                    var expenditureList = ExpenditureAdapter.GetExpenditure();
+                    var categoryList = CategoryAdapter.GetCategory();
+                    var expenditureId = categoryList.Where(z => z.Id == model.Id).Select(z => z.ExpenditureId).FirstOrDefault();
+                    string nameCategory = expenditureList.Where(z => z.Id == expenditureId).Select(z => z.Name).FirstOrDefault();
+                    var sum = expenditureList.Where(z => z.Id == expenditureId).Select(z => z.Sum).FirstOrDefault();
+                    expenditureModel.Id = (int)expenditureId;
+                    expenditureModel.Name = nameCategory;
+                    expenditureModel.Sum = model.SumExpenditure;                    
+                    ExpenditureAdapter.SaveExpenditure(expenditureModel);
+
+                    category.Id = model.Id;
+                    category.NameCategory = nameCategory;
+                    category.DescriptionCategory = model.DescriptionCategory;
+                    category.CurrentDate = model.CurrentDate;
+                    category.IsIncome = true;
+                    category.ExpenditureId = expenditureId;
+                    CategoryAdapter.SaveCategory(category);
+                }
+
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    var recieptModel = new ReceiptDto();
+                    var recieptList = ReceiptAdapter.GetReceipt();
+                    var categoryList = CategoryAdapter.GetCategory();
+                    var reciepId = categoryList.Where(z => z.Id == model.Id).Select(z => z.ReceiptId).FirstOrDefault();
+                    string nameCategory = categoryList.Where(z => z.Id == model.Id).Select(z => z.NameCategory).FirstOrDefault();
+                    recieptModel.Id = (int)reciepId;
+                    recieptModel.Name = nameCategory;
+                    recieptModel.Sum = model.SumReceipt;
+                    ReceiptAdapter.SaveReceipt(recieptModel);
+
+                    category.Id = model.Id;
+                    category.NameCategory = nameCategory;
+                    category.DescriptionCategory = model.DescriptionCategory;
+                    category.CurrentDate = model.CurrentDate;
+                    category.IsIncome = false;
+                    category.ReceiptId = reciepId;
+                    CategoryAdapter.SaveCategory(category);
+                }
+            }                      
+
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()
@@ -271,5 +327,7 @@ namespace axy.Controllers
 
             return NotFound();
         }
+
+
     }
 }
