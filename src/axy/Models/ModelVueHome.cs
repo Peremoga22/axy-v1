@@ -14,5 +14,6 @@ namespace axy.Models
         public DateTime CurrentDate { get; set; }  
      
         public bool IsIncome { get; set; }
+
     }
 }

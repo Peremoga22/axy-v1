@@ -16,8 +16,17 @@
                     <input type="date" class="form-control"  name="Model.CurrentDate">
                 </div>
                 <div class="form-group">
-                    <label for="formGroupExampleInput2">Sum</label>
-                    <input  class="form-control" id="formGroupExampleInput2" name="Model.SumReceipt" placeholder="Sum">
+                    @if (Model.IsIncome)
+                    {
+                        <label for="formGroupExampleInput2">Sum</label>
+                        <input class="form-control" id="formGroupExampleInput2" name="Model.SumReceipt" placeholder="Sum">
+                    }
+                    else
+                    {
+                        <label for="formGroupExampleInput2">Sum</label>
+                        <input class="form-control" id="formGroupExampleInput2" name="Model.SumExpenditure" placeholder="Sum">
+                    }
+
                 </div>
                 <div class="form-check form-switch">
                     <input class="form-check-input"asp-for="IsIncome" type="checkbox" id="flexSwitchCheckChecked" checked>
@@ -26,10 +35,20 @@
                 <br /><br />
                 <label for="formGroupExampleInput">Category</label><br />
                 <div class="input-group mb-3">
-                    <select class="custom-select" asp-for="Id"  asp-items="ViewBag.Categories">
-                        <option value="Id"> Choose an option</option>                     
-                    </select>            
-
+                    @if (Model.IsIncome)
+                    {
+                        <select  class="custom-select" asp-for="@Model.Id" name="Model.ReceiptId"  asp-items="ViewBag.ReceiptId">
+                            <option value="Model.NameReceipt"> Choose an option</option>                     
+                        </select>  
+                    }
+                    else
+                    {
+                         <select  class="custom-select" asp-for="@Model.Id" name="Model.ExpenditureId"  asp-items="ViewBag.ExpenditureId">
+                            <option value="Model.NameExpenditure"> Choose an option</option>                     
+                        </select>  
+                    }
+                             
+                    
                     <div class="input-group-append">
                         <label class="input-group-text" for="inputGroupSelect02">
                             <a asp-action="Categories">

@@ -23,6 +23,7 @@ namespace DataAccessLayer.Entities
 
         public decimal CurrentBalance { get; set; }
         public decimal SavingForThisMounth { get; set; }
-        public decimal BalanceTheBeginningMounth { get; set; }
+        public decimal BalanceTheBeginningMounth { get; set; }       
+
     }
 }
