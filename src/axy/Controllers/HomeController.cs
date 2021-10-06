@@ -36,23 +36,19 @@ namespace axy.Controllers
             var receipt = ReceiptAdapter.GetReceipt();
             var expenditure = ExpenditureAdapter.GetExpenditure();
             var category = new CategoryDto();
-       
+            var categoryAll = CategoryAdapter.GetCategory();
+
             var categoryList = CategoryAdapter.GetCategorySum();
             var expenditureSum = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();
-            if(expenditureSum > 0)
+            var receiptSum = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
+            if (expenditureSum > 0)
             {
-                category.CurrentBalance = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();
-                category.SavingForThisMounth = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();
-                category.BalanceTheBeginningMounth = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();               
-            }
-            else
-            {
-                category.CurrentBalance = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
-                category.SavingForThisMounth = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
-                category.BalanceTheBeginningMounth = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
-            }
-           
-            if(isInCome)
+                category.CurrentBalance = receiptSum - expenditureSum;
+                category.SavingForThisMounth = receiptSum - expenditureSum;
+                category.BalanceTheBeginningMounth = categoryAll.Where(z=>z.ReceiptId == 1011).Select(z => z.SumReceipt).FirstOrDefault();
+            }          
+
+            if (isInCome)
             {
                 ViewData["ExpenditureId"] = new SelectList(expenditure, "Id",nameof(ExpenditureDto.Name));
             }
