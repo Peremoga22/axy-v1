@@ -22,7 +22,7 @@ namespace axy.Controllers
     // [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger;     
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -32,11 +32,16 @@ namespace axy.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            bool isInCome = false;
+            StateSelectHelperDto model = StateHelperAdapter.GetState();                     
+            //if(model.Id>0)
+            //{
+            //    model.IsState = false;
+            //}
+
             var receipt = ReceiptAdapter.GetReceipt();
             var expenditure = ExpenditureAdapter.GetExpenditure();
             var category = new CategoryDto();
-           // category.IsIncome = switcher;
+            category.IsIncome = model.IsState;
             var categoryAll = CategoryAdapter.GetCategory();
 
             var categoryList = CategoryAdapter.GetCategorySum();
@@ -49,24 +54,21 @@ namespace axy.Controllers
                 category.BalanceTheBeginningMounth = categoryAll.Where(z=>z.ReceiptId == 1011).Select(z => z.SumReceipt).FirstOrDefault();
             }          
 
-            if (isInCome)
+            if (model.IsState)
             {
-                ViewData["ExpenditureId"] = new SelectList(expenditure, "Id",nameof(ExpenditureDto.Name));
-               // return RedirectToAction(nameof(Index));
+                ViewData["ExpenditureId"] = new SelectList(expenditure, "Id",nameof(ExpenditureDto.Name));               
             }
             else
             {
-                ViewData["ReceiptId"] = new SelectList(receipt, "Id", nameof(ReceiptDto.Name));
-              // return RedirectToAction(nameof(Index));
+                ViewData["ReceiptId"] = new SelectList(receipt, "Id", nameof(ReceiptDto.Name));              
             }
 
              return View(category);          
         }
 
         [HttpPost]
-        public IActionResult Index(CategoryDto model, bool switcher)
-        {
-            model.IsIncome = switcher;
+        public IActionResult Index(CategoryDto model)
+        {          
             var category = new CategoryDto();
             if(model.IsIncome)
             {
@@ -87,7 +89,6 @@ namespace axy.Controllers
                     category.ExpenditureId = model.ExpenditureId;
                     CategoryAdapter.SaveCategory(category);
                 }
-
             }
             else
             {
@@ -115,20 +116,15 @@ namespace axy.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         [HttpPost]
         public IActionResult IndexSwitcher(bool switcher)
         {
-            var receipt = ReceiptAdapter.GetReceipt();
-            var expenditure = ExpenditureAdapter.GetExpenditure();
-            if(switcher)
-            {
-                ViewData["ExpenditureId"] = new SelectList(expenditure, "Id", nameof(ExpenditureDto.Name));
-            }
-            else
-            {
-                ViewData["ReceiptId"] = new SelectList(receipt, "Id", nameof(ReceiptDto.Name));
-            }
-            return RedirectToAction(nameof(Index));
+            StateSelectHelperDto model = StateHelperAdapter.GetState();                      
+            model.IsState = switcher;
+            StateHelperAdapter.Save(model);
+            
+            return RedirectToAction(nameof(Index));           
         }
 
       [HttpGet]

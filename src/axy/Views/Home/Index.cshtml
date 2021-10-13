@@ -28,7 +28,7 @@
 
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" asp-for="IsIncome" type="checkbox" id="flexSwitchCheckChecked" unchecked>
+                    <input class="form-check-input" asp-for="IsIncome" type="checkbox" id="flexSwitchCheckChecked" >
                     <label class="form-check-label" for="flexSwitchCheckChecked" name="Model.IsIncome">Receipts/Expenditures </label>
                 </div>
                 <br /><br />
@@ -90,8 +90,7 @@
                 dataType: "text",
                 success: function (msg) {
                     console.log(msg);
-
-                  
+                    window.location.reload();                  
                   
                 },
             error: function (req, status, error) {

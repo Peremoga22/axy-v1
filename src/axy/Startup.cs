@@ -51,7 +51,8 @@ namespace axy
             //});
             //services.AddRazorPages()
             //     .AddMicrosoftIdentityUI();
-            services.AddMvc();
+            services.AddMvc();         
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,9 +72,9 @@ namespace axy
 
             app.UseRouting();
 
-           // app.UseAuthentication();
-           // app.UseAuthorization();
-
+            // app.UseAuthentication();
+            // app.UseAuthorization();
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
