@@ -41,15 +41,14 @@ namespace axy.Controllers
             var categoryAll = CategoryAdapter.GetCategory();
 
             var categoryList = CategoryAdapter.GetCategorySum();
-            var expenditureSum = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();
-            var receiptSum = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
-            ViewData["Costs"] = expenditureSum;
-            if (expenditureSum > 0)
-            {
-                category.CurrentBalance = receiptSum - expenditureSum;
-                category.SavingForThisMounth = receiptSum - expenditureSum;
-                category.BalanceTheBeginningMounth = categoryAll.Where(z=>z.ReceiptId == 1011).Select(z => z.SumReceipt).FirstOrDefault();
-            }          
+            var receiptSum  = categoryList.Select(z => z.BalansRecipt).FirstOrDefault();
+            var expenditureSum = categoryList.Select(z => z.BalansExpenditure).FirstOrDefault();
+                       
+            category.CurrentBalance = receiptSum - expenditureSum;
+            category.SavingForThisMounth = receiptSum - expenditureSum;
+            category.BalanceTheBeginningMounth = receiptSum;
+
+            ViewData["Costs"] = expenditureSum;                   
 
             if (model.IsState)
             {
@@ -129,7 +128,10 @@ namespace axy.Controllers
 
       [HttpGet]
         public IActionResult GetAllCategories()
-        {           
+        {
+            var categorySum = CategoryAdapter.GetCategorySum();
+            var expenditureSum = categorySum.Select(z => z.BalansExpenditure).FirstOrDefault();
+            ViewData["Costs"] = expenditureSum;
             var categoryList = CategoryAdapter.GetCategory();
             var filter = categoryList.ToList();
             return View(filter);
@@ -227,8 +229,12 @@ namespace axy.Controllers
         }
 
         [HttpGet]
-        public ViewResult Categories(int Id)
+        public ViewResult Categories()
         {
+            var categorySum = CategoryAdapter.GetCategorySum();
+            var expenditureSum = categorySum.Select(z => z.BalansExpenditure).FirstOrDefault();
+            ViewData["Costs"] = expenditureSum;
+
             var receipt = ReceiptAdapter.GetReceipt();
             var expenditure = ExpenditureAdapter.GetExpenditure();          
 
@@ -269,6 +275,9 @@ namespace axy.Controllers
         [HttpGet]
         public ViewResult EditReceipts(int id)
         {
+            var categorySum = CategoryAdapter.GetCategorySum();
+            var expenditureSum = categorySum.Select(z => z.BalansExpenditure).FirstOrDefault();
+            ViewData["Costs"] = expenditureSum;
 
             var model = ReceiptAdapter.GetReceiptDtoId(id);
 
@@ -308,6 +317,10 @@ namespace axy.Controllers
         [HttpGet]
         public ViewResult EditExpenditures(int id)
         {
+            var categorySum = CategoryAdapter.GetCategorySum();
+            var expenditureSum = categorySum.Select(z => z.BalansExpenditure).FirstOrDefault();
+            ViewData["Costs"] = expenditureSum;
+
             var res = ExpenditureAdapter.GetExpenditureDtoId(id);
            
             return View(res);

@@ -20,6 +20,8 @@ namespace DataAccessLayer.Entities
         public decimal Income { get; set; }
         public int? ExpenditureId { get; set; }
         public int? ReceiptId { get; set; }
+        public decimal BalansRecipt { get; set; }
+        public decimal BalansExpenditure { get; set; }
 
         public decimal CurrentBalance { get; set; }
         public decimal SavingForThisMounth { get; set; }

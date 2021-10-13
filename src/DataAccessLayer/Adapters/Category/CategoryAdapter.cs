@@ -161,9 +161,11 @@ namespace DataAccessLayer
                         Id = DataBaseHelper.GetIntegerValueFromRowByName(item, "CategoryId"),
                         NameCategory = DataBaseHelper.GetValueFromRowByName(item, "CategoryName"),
                         DescriptionCategory = DataBaseHelper.GetValueFromRowByName(item, "Description"),
-                        CurrentDate = DataBaseHelper.GetDateTimeValueFromRowByName(item, "CurentData"),                        
-                        SumReceipt = DataBaseHelper.GetDecimalValueFromRowByName(item, "SumReceipt"),                      
-                        SumExpenditure = DataBaseHelper.GetDecimalValueFromRowByName(item, "SumExpenditure")
+                        CurrentDate = DataBaseHelper.GetDateTimeValueFromRowByName(item, "CurentData"),
+                        SumReceipt = DataBaseHelper.GetDecimalValueFromRowByName(item, "SumReceipt"),
+                        SumExpenditure = DataBaseHelper.GetDecimalValueFromRowByName(item, "SumExpenditure"),
+                        BalansRecipt = DataBaseHelper.GetDecimalValueFromRowByName(item, "BalansRecipt"),
+                        BalansExpenditure = DataBaseHelper.GetDecimalValueFromRowByName(item, "BalansExpenditure")
                     });
                 }
             }
