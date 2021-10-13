@@ -61,9 +61,9 @@ namespace DataAccessLayer.Adapters.Category
         public static int SaveExpenditure(ExpenditureDto model)
         {
             var sql = string.Empty;
+           
             if (model.Id > 0)
-            {
-               
+            {               
                 sql = string.Format(@"EXEC [sp_SaveExpenditure] {0}, {1},{2}",
                 DataBaseHelper.RawSafeSqlString(model.Id),
                 DataBaseHelper.SafeSqlString(model.Name),

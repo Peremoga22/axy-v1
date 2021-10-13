@@ -32,12 +32,8 @@ namespace axy.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            StateSelectHelperDto model = StateHelperAdapter.GetState();                     
-            //if(model.Id>0)
-            //{
-            //    model.IsState = false;
-            //}
-
+            StateSelectHelperDto model = StateHelperAdapter.GetState();                    
+          
             var receipt = ReceiptAdapter.GetReceipt();
             var expenditure = ExpenditureAdapter.GetExpenditure();
             var category = new CategoryDto();
@@ -47,6 +43,7 @@ namespace axy.Controllers
             var categoryList = CategoryAdapter.GetCategorySum();
             var expenditureSum = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();
             var receiptSum = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
+            ViewData["Costs"] = expenditureSum;
             if (expenditureSum > 0)
             {
                 category.CurrentBalance = receiptSum - expenditureSum;
@@ -70,23 +67,26 @@ namespace axy.Controllers
         public IActionResult Index(CategoryDto model)
         {          
             var category = new CategoryDto();
-            if(model.IsIncome)
+            var state = StateHelperAdapter.GetState();
+            model.IsIncome = state.IsState;
+            if (model.IsIncome)
             {
                 if (ModelState.IsValid)
                 {
-                    var expenditureModel = new ExpenditureDto();
                     var expenditureList = ExpenditureAdapter.GetExpenditure();
                     string nameCategory = expenditureList.Where(z => z.Id == model.ExpenditureId).Select(z => z.Name).FirstOrDefault();
-                    expenditureModel.Id = (int)model.ExpenditureId;
+                    var expenditureModel = new ExpenditureDto();                    
+                    expenditureModel.Id = 0;
                     expenditureModel.Name = nameCategory;
-                    expenditureModel.Sum = model.SumExpenditure;
-                    category.NameCategory = nameCategory;
-                    ExpenditureAdapter.SaveExpenditure(expenditureModel);
+                    expenditureModel.Sum = model.SumExpenditure;                    
+                    int expenditureId = ExpenditureAdapter.SaveExpenditure(expenditureModel);
 
+                    category.NameCategory = nameCategory;
                     category.DescriptionCategory = model.DescriptionCategory;
                     category.CurrentDate = model.CurrentDate;
                     category.IsIncome = true;
-                    category.ExpenditureId = model.ExpenditureId;
+                    category.ExpenditureId = expenditureId;
+                    category.ReceiptId = 0;
                     CategoryAdapter.SaveCategory(category);
                 }
             }
@@ -94,21 +94,21 @@ namespace axy.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var recieptModel = new ReceiptDto();
-                    recieptModel.Id = (int)model.ReceiptId;
-
                     var receiptList = ReceiptAdapter.GetReceipt();
                     string nameCategory = receiptList.Where(z => z.Id == model.ReceiptId).Select(z => z.Name).FirstOrDefault();
+                    var recieptModel = new ReceiptDto();
+                    recieptModel.Id = 0;
                     recieptModel.Name = nameCategory;
                     recieptModel.Sum = model.SumReceipt;
-                    ReceiptAdapter.SaveReceipt(recieptModel);
+                    int receiptId = ReceiptAdapter.SaveReceipt(recieptModel);
 
-                    category.ReceiptId = model.Id;
+                                      
                     category.NameCategory = nameCategory;
                     category.DescriptionCategory = model.DescriptionCategory;
                     category.CurrentDate = model.CurrentDate;
                     category.IsIncome = false;
-                    category.ReceiptId = model.ReceiptId;
+                    category.ReceiptId = receiptId;
+                    category.ExpenditureId = 0;
                     CategoryAdapter.SaveCategory(category);
                 }
             }
@@ -129,9 +129,9 @@ namespace axy.Controllers
 
       [HttpGet]
         public IActionResult GetAllCategories()
-        {
+        {           
             var categoryList = CategoryAdapter.GetCategory();
-            var filter = categoryList.Where(z => !string.IsNullOrEmpty(z.NameCategory)).ToList();
+            var filter = categoryList.ToList();
             return View(filter);
         }
 
@@ -157,7 +157,7 @@ namespace axy.Controllers
         [HttpPost]
         public IActionResult SaveCategory(CategoryDto model)
         {
-            model.IsIncome = false;
+           // model.IsIncome = false;
             var category = new CategoryDto();
             if (model.IsIncome)
             {
@@ -254,7 +254,7 @@ namespace axy.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult RemoveCategory(int Id)
         {
             if (Id > 0)
@@ -281,6 +281,7 @@ namespace axy.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.Sum = 0;
                 ReceiptAdapter.SaveReceipt(model);
                 TempData["message"] = $"{model} has been saved";
                 return RedirectToAction("Index");
@@ -317,6 +318,7 @@ namespace axy.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.Sum = 0;
                 ExpenditureAdapter.SaveExpenditure(model);
                
                 return RedirectToAction("Index");

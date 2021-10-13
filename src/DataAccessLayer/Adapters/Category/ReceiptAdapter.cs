@@ -40,9 +40,10 @@ namespace DataAccessLayer.Adapters.Category
         {
             var sql = string.Empty;
             var ReceiptId = 0;
+           
             if (model.Id> 0)
-            {
-               sql = string.Format(@"EXEC [sp_SaveReceipt] {0}, {1},{2}",
+            {                
+                sql = string.Format(@"EXEC [sp_SaveReceipt] {0}, {1},{2}",
                DataBaseHelper.RawSafeSqlString(model.Id),
                DataBaseHelper.SafeSqlString(model.Name),
                DataBaseHelper.RawSafeSglDecimal((decimal)model.Sum));

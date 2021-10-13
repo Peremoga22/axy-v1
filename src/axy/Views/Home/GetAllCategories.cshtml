@@ -1,7 +1,9 @@
 ﻿@model List<CategoryDto>
 
-@{
+@{  
     ViewData["Title"] = "History";
+    ViewData["Costs"] = 600;
+
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -38,16 +40,15 @@
 
 
                 <td class="text-center">
-                    <form asp-action="Delete" method="post">
+                    <form asp-action="RemoveCategory" method="post">
                         <a asp-action="EditCategory" class="btn btn-sm btn-outline-dark"
                            asp-route-Id="@item.Id">
                             <i style='font-size:14px' class='far'>&#xf044;</i>
-
                         </a>
-                        @*<input type="hidden" name="Id" value="@item.Id" />
-                    <button type="submit" class="btn btn-danger btn-sm">
-                        Delete
-                    </button>*@
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">
+                             <img src="https://img.icons8.com/ios/21/000000/delete-forever--v1.png"/>
+                        </button>
                     </form>
                 </td>
             </tr>

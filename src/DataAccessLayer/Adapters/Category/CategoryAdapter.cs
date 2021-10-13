@@ -5,6 +5,7 @@ using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,11 +61,14 @@ namespace DataAccessLayer
                     model.ExpenditureId = null;
                 }
 
+                var format = "yyyy-MM-dd HH:mm:ss:fff";
+                var stringDate = model.CurrentDate.ToString(format);
+
                 var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3},{4},{5},{6}",
                 DataBaseHelper.RawSafeSqlString(model.Id),
                 DataBaseHelper.SafeSqlString(model.NameCategory),
                 DataBaseHelper.SafeSqlString(model.DescriptionCategory),
-                DataBaseHelper.SafeSqlString(model.CurrentDate),
+                DataBaseHelper.SafeSqlString(stringDate),
                 DataBaseHelper.RawSafeSqlString(model.IsIncome),
                 DataBaseHelper.RawSafeSqlString(model.ExpenditureId),
                 DataBaseHelper.RawSafeSqlString(model.ReceiptId));
@@ -82,12 +86,15 @@ namespace DataAccessLayer
                 {
                     model.ExpenditureId = null;
                 }
+                var format = "yyyy-MM-dd HH:mm:ss:fff";
+                var stringDate = model.CurrentDate.ToString(format);
+               
 
                 var sql = string.Format(@"EXEC [sp_SaveCategory] {0}, {1}, {2}, {3},{4},{5},{6}",
                 DataBaseHelper.RawSafeSqlString(model.Id),
                 DataBaseHelper.SafeSqlString(model.NameCategory),
                 DataBaseHelper.SafeSqlString(model.DescriptionCategory),
-                DataBaseHelper.SafeSqlString(model.CurrentDate),
+                DataBaseHelper.SafeSqlString(stringDate),
                 DataBaseHelper.RawSafeSqlString(model.IsIncome),
                 DataBaseHelper.RawSafeSqlString(model.ExpenditureId),
                 DataBaseHelper.RawSafeSqlString(model.ReceiptId));
