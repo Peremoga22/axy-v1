@@ -126,7 +126,8 @@ namespace axy.Controllers
             return RedirectToAction(nameof(Index));           
         }
 
-      [HttpGet]
+
+        [HttpGet]
         public IActionResult GetAllCategories()
         {
             var categorySum = CategoryAdapter.GetCategorySum();
@@ -136,6 +137,7 @@ namespace axy.Controllers
             var filter = categoryList.ToList();
             return View(filter);
         }
+
 
         [HttpGet]
         public IActionResult EditCategory(int id)
@@ -155,6 +157,7 @@ namespace axy.Controllers
 
             return View(category);
         }
+
 
         [HttpPost]
         public IActionResult SaveCategory(CategoryDto model)
@@ -211,16 +214,21 @@ namespace axy.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
         [HttpGet]
         public IActionResult Privacy()
         {
-                     
+            var categorySum = CategoryAdapter.GetCategorySum();
+            var expenditureSum = categorySum.Select(z => z.BalansExpenditure).FirstOrDefault();
+            ViewData["Costs"] = expenditureSum;
             return View();
         }
 
+
         [HttpGet]
         public JsonResult PieChart()
-        {
+        {          
             CategoryDto model = new CategoryDto();
             List<SumPieDto> sumList = new List<SumPieDto>();
             IEnumerable<CategoryDto> categoryList = new List<CategoryDto>();
