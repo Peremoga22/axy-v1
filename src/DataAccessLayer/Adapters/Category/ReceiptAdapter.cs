@@ -66,12 +66,12 @@ namespace DataAccessLayer.Adapters.Category
             return ReceiptId;
         }
 
-        public static ReceiptDto GetReceiptDtoId(int contactId)
+        public static ReceiptDto GetReceiptDtoId(int id)
         {
             ReceiptDto result = new ReceiptDto();
 
             var sql = string.Format(@"EXEC [sp_GetReceiptDetailID] {0}",
-               DataBaseHelper.RawSafeSqlString(contactId));
+               DataBaseHelper.RawSafeSqlString(id));
             var sqlResult = DataBaseHelper.GetSqlResult(sql);
 
             if (sqlResult.Rows.Count > 0)

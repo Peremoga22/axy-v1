@@ -36,6 +36,7 @@ namespace axy.Controllers
             var receipt = ReceiptAdapter.GetReceipt();
             var expenditure = ExpenditureAdapter.GetExpenditure();
             var category = new CategoryDto();
+           // category.IsIncome = switcher;
             var categoryAll = CategoryAdapter.GetCategory();
 
             var categoryList = CategoryAdapter.GetCategorySum();
@@ -51,19 +52,21 @@ namespace axy.Controllers
             if (isInCome)
             {
                 ViewData["ExpenditureId"] = new SelectList(expenditure, "Id",nameof(ExpenditureDto.Name));
+               // return RedirectToAction(nameof(Index));
             }
             else
             {
                 ViewData["ReceiptId"] = new SelectList(receipt, "Id", nameof(ReceiptDto.Name));
+              // return RedirectToAction(nameof(Index));
             }
-           
-            return View(category);
+
+             return View(category);          
         }
 
         [HttpPost]
-        public IActionResult Index(CategoryDto model)
+        public IActionResult Index(CategoryDto model, bool switcher)
         {
-            model.IsIncome = false;
+            model.IsIncome = switcher;
             var category = new CategoryDto();
             if(model.IsIncome)
             {
@@ -83,12 +86,12 @@ namespace axy.Controllers
                     category.IsIncome = true;
                     category.ExpenditureId = model.ExpenditureId;
                     CategoryAdapter.SaveCategory(category);
-                }                       
-                               
+                }
+
             }
             else
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     var recieptModel = new ReceiptDto();
                     recieptModel.Id = (int)model.ReceiptId;
@@ -106,13 +109,29 @@ namespace axy.Controllers
                     category.IsIncome = false;
                     category.ReceiptId = model.ReceiptId;
                     CategoryAdapter.SaveCategory(category);
-                }               
+                }
             }
 
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
+        [HttpPost]
+        public IActionResult IndexSwitcher(bool switcher)
+        {
+            var receipt = ReceiptAdapter.GetReceipt();
+            var expenditure = ExpenditureAdapter.GetExpenditure();
+            if(switcher)
+            {
+                ViewData["ExpenditureId"] = new SelectList(expenditure, "Id", nameof(ExpenditureDto.Name));
+            }
+            else
+            {
+                ViewData["ReceiptId"] = new SelectList(receipt, "Id", nameof(ReceiptDto.Name));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+      [HttpGet]
         public IActionResult GetAllCategories()
         {
             var categoryList = CategoryAdapter.GetCategory();

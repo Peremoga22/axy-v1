@@ -1,5 +1,4 @@
-﻿
-@*@model axy.Models.ModelVueHome*@
+﻿@*@model axy.Models.ModelVueHome*@
 @model DataAccessLayer.Entities.CategoryDto
 @{
     ViewData["Title"] = "Home Page";
@@ -12,8 +11,8 @@
             <h1 class="display-4">Welcome</h1>
             <form method="post" asp-controller="Home" asp-action="Index">
                 <div class="form-group">
-                    <label >Date time</label>
-                    <input type="date" class="form-control"  name="Model.CurrentDate">
+                    <label>Date time</label>
+                    <input type="date" class="form-control" name="Model.CurrentDate">
                 </div>
                 <div class="form-group">
                     @if (!Model.IsIncome)
@@ -29,26 +28,25 @@
 
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input"asp-for="IsIncome" type="checkbox" id="flexSwitchCheckChecked" checked>
+                    <input class="form-check-input" asp-for="IsIncome" type="checkbox" id="flexSwitchCheckChecked" unchecked>
                     <label class="form-check-label" for="flexSwitchCheckChecked" name="Model.IsIncome">Receipts/Expenditures </label>
                 </div>
                 <br /><br />
                 <label for="formGroupExampleInput">Category</label><br />
                 <div class="input-group mb-3">
-                    @if (!Model.IsIncome)
+                   @if (!Model.IsIncome)
                     {
-                        <select  class="custom-select" asp-for="@Model.ReceiptId" name="Model.ReceiptId"  asp-items="ViewBag.ReceiptId">
-                            <option value="Model.NameReceipt"> Choose an option</option>                     
-                        </select>  
+                        <select class="custom-select" asp-for="@Model.ReceiptId" name="Model.ReceiptId" asp-items="ViewBag.ReceiptId">
+                            <option value="Model.NameReceipt"> Choose an option</option>
+                        </select>
                     }
                     else
                     {
-                         <select  class="custom-select" asp-for="@Model.ExpenditureId" name="Model.ExpenditureId"  asp-items="ViewBag.ExpenditureId">
-                            <option value="Model.NameExpenditure"> Choose an option</option>                     
-                        </select>  
+                        <select class="custom-select" asp-for="@Model.ExpenditureId" name="Model.ExpenditureId" asp-items="ViewBag.ExpenditureId">
+                            <option value="Model.NameExpenditure"> Choose an option</option>
+                        </select>
                     }
-                             
-                    
+
                     <div class="input-group-append">
                         <label class="input-group-text" for="inputGroupSelect02">
                             <a asp-action="Categories">
@@ -66,7 +64,7 @@
                 <input type="submit" class="btn btn-warning btn-lg" value="Save" />
             </form>
         </div>
-      
+
         <div class="card">
             <div class="card-body">
                 <ul class="list-unstyled text-left">
@@ -75,8 +73,31 @@
                     <li>Balance at the beginning of the month: @Model.BalanceTheBeginningMounth</li>
                 </ul>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#flexSwitchCheckChecked').click(function () {
+            var val1 = $('#flexSwitchCheckChecked').is(':checked');
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("IndexSwitcher")",
+                data: { switcher: val1},
+                dataType: "text",
+                success: function (msg) {
+                    console.log(msg);
+
+                  
+                  
+                },
+            error: function (req, status, error) {
+              console.log(msg);
+            }
+        });
+        });
+    });
+</script>
