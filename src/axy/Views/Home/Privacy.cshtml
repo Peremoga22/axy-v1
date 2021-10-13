@@ -4,15 +4,16 @@
    
 }
 <h1>@ViewData["Title"]</h1>
-       
+
+
 <div class="text-center">
     <div class="jumbotron">
         <div id="chartdiv"></div>
         <br />
-        <form asp-action="Privacy" method="post">
+        @*<form asp-action="Privacy" method="post">
             <button class="btn btn btn-outline-info" id="GeneratePieChart">Generate Pie Chart</button>
-        </form>
-
+        </form>*@
+        <button class="btn btn btn-outline-info" id="GeneratePieChart">Generate Pie Chart</button>
     </div>
 </div>
 
@@ -21,25 +22,30 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#GeneratePieChart').click(function () {
-            //var sumList = sumList;
+           
+            $.ajax({
+                    type: 'Get',
+                    url: "@Url.Action("PieChart")",
+                    dataType:"json",
+                    success: function (data) {
+                        GeneraPieChart(data)
+                    },
+                    error: function () {
+                        alert("Error loading data! Please try again.");
+                    }
+            });
+
             function GeneraPieChart(sumList) {
                 am4core.useTheme(am4themes_animated);
-
                 var chart = am4core.create("chartdiv", am4charts.PieChart3D);
                 chart.hiddenState.properties.opacity = 0;
-
                 chart.legend = new am4charts.Legend();
-
                 chart.data = sumList;
-
-
                 var series = chart.series.push(new am4charts.PieSeries3D());
                 series.dataFields.value = "sumPercentage";
-
                 series.dataFields.category = "nameCategory";
             }
-            
         });
-        
+
     });
 </script>

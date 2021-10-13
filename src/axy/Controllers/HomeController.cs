@@ -218,8 +218,8 @@ namespace axy.Controllers
             return View();
         }
 
-        [HttpPost]
-        public JsonResult Privacy(int id)
+        [HttpGet]
+        public JsonResult PieChart()
         {
             CategoryDto model = new CategoryDto();
             List<SumPieDto> sumList = new List<SumPieDto>();
@@ -246,7 +246,7 @@ namespace axy.Controllers
                 count++;
             }
             
-            return Json( new { JSONList = sumList });
+            return Json(sumList);
         }
 
         [AllowAnonymous]
