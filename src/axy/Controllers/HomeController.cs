@@ -158,8 +158,7 @@ namespace axy.Controllers
 
         [HttpPost]
         public IActionResult SaveCategory(CategoryDto model)
-        {
-           // model.IsIncome = false;
+        {           
             var category = new CategoryDto();
             if (model.IsIncome)
             {
@@ -212,13 +211,42 @@ namespace axy.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
+        [HttpGet]
         public IActionResult Privacy()
         {
-            var recipt = new List<ReceiptDto>();
-            recipt.Add(new ReceiptDto() { Id = 1, Name = "Product", Sum = 12.3m });
-            recipt.Add(new ReceiptDto() { Id = 2, Name = "Relax", Sum = 36.7m });
-            return View(recipt);
+                     
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult Privacy(int id)
+        {
+            CategoryDto model = new CategoryDto();
+            List<SumPieDto> sumList = new List<SumPieDto>();
+            IEnumerable<CategoryDto> categoryList = new List<CategoryDto>();
+            SumPieDto pie = new SumPieDto();
+
+            categoryList = CategoryAdapter.GetCategorySum();
+            int count = 1;
+
+            pie.SumExpenditure = categoryList.Select(z => z.SumExpenditure).FirstOrDefault();
+            pie.SumReceipt = categoryList.Select(z => z.SumReceipt).FirstOrDefault();
+
+            foreach (var item in categoryList)
+            {
+                sumList.Add(new SumPieDto() { NameCategory = item.DescriptionCategory, SumReceipt = item.BalansRecipt, SumExpenditure = item.SumExpenditure });
+
+                if (categoryList.Count() == count)
+                {
+                    var remainderSum = item.BalansRecipt - item.BalansExpenditure;
+                    sumList.Add(new SumPieDto() { NameCategory = "Amount on the balance.", SumReceipt = item.BalansRecipt, SumExpenditure = remainderSum });
+                    break;
+                }
+
+                count++;
+            }
+            
+            return Json( new { JSONList = sumList });
         }
 
         [AllowAnonymous]

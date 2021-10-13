@@ -1,16 +1,45 @@
-﻿
+﻿@model List<SumPieDto> 
 @{
     ViewData["Title"] = "Reports";
+   
 }
 <h1>@ViewData["Title"]</h1>
+       
+<div class="text-center">
+    <div class="jumbotron">
+        <div id="chartdiv"></div>
+        <br />
+        <form asp-action="Privacy" method="post">
+            <button class="btn btn btn-outline-info" id="GeneratePieChart">Generate Pie Chart</button>
+        </form>
 
-<div class="row d-flex  justify-content-center m-sm-12">
-    <figure class="pie-chart">
-        <h2>Balance</h2>
-        <figcaption>
-           Receipts 38<span style="color:#4e79a7"></span><br>
-           expenditures 16<span style="color:#e15759"></span>
-        </figcaption>
-        <cite>Axy</cite>
-    </figure>
+    </div>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#GeneratePieChart').click(function () {
+            //var sumList = sumList;
+            function GeneraPieChart(sumList) {
+                am4core.useTheme(am4themes_animated);
+
+                var chart = am4core.create("chartdiv", am4charts.PieChart3D);
+                chart.hiddenState.properties.opacity = 0;
+
+                chart.legend = new am4charts.Legend();
+
+                chart.data = sumList;
+
+
+                var series = chart.series.push(new am4charts.PieSeries3D());
+                series.dataFields.value = "sumPercentage";
+
+                series.dataFields.category = "nameCategory";
+            }
+            
+        });
+        
+    });
+</script>
